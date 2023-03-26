@@ -21,7 +21,7 @@ const AllNotes = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: "http://localhost/api/notes/",
+    url: "https://mynotes-server-jznn.onrender.com/api/notes/",
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
