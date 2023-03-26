@@ -1,11 +1,53 @@
 import React from "react";
-
-const NoteCard = ({ title, body, tags }) => {
+import axios from "axios";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Link } from "react-router-dom";
+const NoteCard = ({ title, body, tags, id }) => {
   const limitedBody = body.length > 150 ? `${body.slice(0, 150)}...` : body;
 
+  const getAccessToken = () => {
+    console.log("Fetching token...");
+    const token = localStorage.getItem("token");
+    if (!token) navigate("/login");
+    return JSON.parse(token).accessToken;
+  };
+
+  let config = {
+    method: "delete",
+    maxBodyLength: Infinity,
+    url: `https://mynotes-server-jznn.onrender.com/api/notes/${id}`,
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  };
+
+  async function makeRequest() {
+    try {
+      const response = await axios.request(config);
+      console.log(JSON.stringify(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <div className="bg-slate-300 hover:bg-slate-400 transition outline outline-1 outline-slate-900  rounded-lg shadow-md p-6">
-      <h2 className="text-lg font-medium mb-2">{title}</h2>
+    <div
+      id={id}
+      className="bg-slate-300 flex flex-col justify-start items-start hover:bg-slate-400 transition outline outline-1 outline-slate-900  rounded-lg shadow-md p-6"
+    >
+      
+
+      <div className="flex justify-between items-center w-full">
+      <Link to={`/edit-note/${id}`}>
+      <h2 className="text-lg font-medium mb-2 hover:underline transition">{title}</h2>
+      </Link>
+        <AiOutlineDelete
+        title="Delete Note"
+        onClick={makeRequest}
+        className="w-6 text-slate-500 hover:text-slate-900 h-6"
+      />
+      </div>
+        
       <p className="text-gray-700 mb-4">{limitedBody}</p>
       <div className="flex flex-wrap">
         {tags.map((tag) => (

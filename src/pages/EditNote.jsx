@@ -1,17 +1,23 @@
-import React, { useState } from "react";
-import ReactTextareaAutosize from "react-textarea-autosize";
-import { AiFillSave } from "react-icons/ai";
-import axios from "axios";
-import Spinner from "../components/common/Spinner";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/common/Navbar";
-const CreateNote = () => {
+import { AiFillSave } from "react-icons/ai";
+import Spinner from "../components/common/Spinner";
+import axios from "axios";
+import ReactTextareaAutosize from "react-textarea-autosize";
+import { useParams } from "react-router-dom";
+const EditNote = () => {
+  const { noteId } = useParams();
   const [noteFields, setNoteFields] = useState({
     title: "",
     body: "",
     tagsString: "#general",
   });
-  const [noteTags, setNoteTags] = useState([]);
   const [savedNote, setSavedNote] = useState({});
+  const [noteTags, setNoteTags] = useState([]);
+
+  useEffect(() => {
+    fetchNote();
+  }, []);
   const handleChange = (e) => {
     setNoteTags(createTags(noteFields.tagsString));
     setNoteFields((prevData) => {
@@ -21,6 +27,8 @@ const CreateNote = () => {
       };
     });
   };
+
+
   const createTags = (string) => {
     let text = string;
     const myArray = text.split(" ");
@@ -33,6 +41,8 @@ const CreateNote = () => {
     }
     return myArray;
   };
+
+
   const getAccessToken = () => {
     console.log("Fetching token...");
     const token = localStorage.getItem("token");
@@ -40,26 +50,26 @@ const CreateNote = () => {
     return JSON.parse(token).accessToken;
   };
 
+  //! UPDATE NOTE API
   let data = JSON.stringify({
     title: noteFields.title,
     body: noteFields.body,
-    tags: noteTags[0] == "#" ? ["#general"] : noteTags ,
+    tags: noteTags,
   });
 
   let config = {
-    method: "post",
+    method: "put",
     maxBodyLength: Infinity,
-    url: "https://mynotes-server-jznn.onrender.com/api/notes/",
+    url: `https://mynotes-server-jznn.onrender.com/api/notes/${noteId}`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
       "Content-Type": "application/json",
     },
     data: data,
   };
-//!CHECK TITLE VALIDATION
-  async function makeRequest() {
+
+  async function updatingNotes() {
     try {
-      console.log('arr' + noteTags.length)
       const response = await axios.request(config);
       setSavedNote(response.data);
     } catch (error) {
@@ -67,14 +77,42 @@ const CreateNote = () => {
     }
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setSavedNote(null);
-    makeRequest();
+    updatingNotes();
   };
+
+
+
+ 
+  //! GETTING NOTE DATA API
+  let config2 = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: `https://mynotes-server-jznn.onrender.com/api/notes/${noteId}`,
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  };
+
+  async function fetchNote() {
+    try {
+      const response = await axios.request(config2);
+      setNoteFields({
+        title: response.data.title,
+        body: response.data.title,
+        tagsString: response.data.tags.join(" "),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
 
   return (
     <>
-          <Navbar/>
+      <Navbar />
       {!savedNote ? (
         <Spinner />
       ) : (
@@ -120,4 +158,4 @@ const CreateNote = () => {
   );
 };
 
-export default CreateNote;
+export default EditNote;

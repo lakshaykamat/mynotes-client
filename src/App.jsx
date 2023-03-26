@@ -7,6 +7,7 @@ import PrivateComponents from './components/common/PrivateComponents'
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import CreateNote from "./pages/CreateNote";
+import EditNote from "./pages/EditNote";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route element={<PrivateComponents />}>
           <Route path="/" element={<Home/>} />
           <Route path="/profile" element={<Profile/>} />
-          <Route path="create-note" element={<CreateNote/>} />
+          <Route path="/create-note" element={<CreateNote/>} />
+          <Route path="/edit-note/:noteId" element={<EditNote/>} />
         </Route>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/login" element={<LoginForm />} />
