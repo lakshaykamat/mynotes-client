@@ -3,14 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NoteCard from "./NotesCard";
 import NoteNotFound from "./NoteNotFound";
+import Spinner from "./common/Spinner";
 const AllNotes = () => {
   const navigate = useNavigate();
   const [allNotes, setAllNotes] = useState(null);
-  //   useEffect(()=>{
-  //     const token =  localStorage.getItem('token')
-  //     if(!token) navigate("/login")
-  //     SET_ACCESS_TOKEN(JSON.parse(token).accessToken)
-  // },[])
+
   const getAccessToken = () => {
     console.log("Fetching token...");
     const token = localStorage.getItem("token");
@@ -47,26 +44,11 @@ const AllNotes = () => {
   useEffect(() => {
     makeRequest();
   }, []);
-  const allNoteCards = !allNotes ? (
-    <h1>Loading...</h1>
-  ) : allNotes.length == 0 ? (
-    <NoteNotFound/>
-  ) : (
-    allNotes.map((item, index) => {
-      return (
-        <NoteCard
-          key={index}
-          title={item.title}
-          body={item.body}
-          tags={item.tags}
-        />
-      );
-    })
-  );
+
 
   return (
     <div>
-      {!allNotes ? <h1 className="text-3xl text-center">Loading...</h1> : allNotes.length === 0 ? <NoteNotFound/> :
+      {!allNotes ? <Spinner/> : allNotes.length === 0 ? <NoteNotFound/> :
       <>
       <div className="my-7 mx-6 gap-2 flex flex-col">
       <h1 className="text-3xl font-bold">Saved Notes</h1>

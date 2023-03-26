@@ -6,17 +6,18 @@ import PageNotFound from "./pages/PageNotFound";
 import PrivateComponents from './components/common/PrivateComponents'
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
+import CreateNote from "./pages/CreateNote";
 
 function App() {
   return (
     <>
-      <Navbar />
       <Routes>
         <Route element={<PrivateComponents />}>
           <Route path="/" element={<Home/>} />
           <Route path="/profile" element={<Profile/>} />
-          <Route path="*" element={<PageNotFound />} />
+          <Route path="create-note" element={<CreateNote/>} />
         </Route>
+          <Route path="*" element={<PageNotFound />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
       </Routes>

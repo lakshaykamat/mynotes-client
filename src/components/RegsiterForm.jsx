@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
+import Navbar from "./common/Navbar";
 const RegisterForm = () => {
   const navigate = useNavigate();
     const [message,setMessage] = useState(null)
@@ -57,6 +58,9 @@ const RegisterForm = () => {
     }
   }
   return (
+    <>
+
+    <Navbar/>
     <form action="post" onSubmit={handleSubmit} className="max-w-xl mx-5 sm:mx-auto mt-8">
       <div className="mb-4">
         <label
@@ -116,6 +120,7 @@ const RegisterForm = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

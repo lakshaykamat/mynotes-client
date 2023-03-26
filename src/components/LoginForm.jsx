@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./common/Navbar";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loginField, setLoginFiled] = useState({ email: "", password: "" });
@@ -48,6 +49,8 @@ const LoginForm = () => {
     makeRequest();
   };
   return (
+    <>
+    <Navbar/>
     <form onSubmit={handleSubmit} className="max-w-xl mx-5 sm:mx-auto mt-8">
       <div className="mb-4">
         <label
@@ -92,6 +95,7 @@ const LoginForm = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 export default LoginForm;

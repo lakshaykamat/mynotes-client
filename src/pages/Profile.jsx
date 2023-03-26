@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PFP } from "../assets/PFP";
 import axios from "axios";
+import Spinner from "../components/common/Spinner";
+import Navbar from "../components/common/Navbar";
 const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const [userImg, setUserImg] = useState(null);
@@ -76,8 +78,9 @@ const Profile = () => {
   };
   return (
     <>
+      <Navbar/>
       {!profileData ? (
-        <h1 className="my-6 text-3xl">Loading...</h1>
+        <Spinner/>
       ) : (
         <ProfileCard
           userImg={userImg}
