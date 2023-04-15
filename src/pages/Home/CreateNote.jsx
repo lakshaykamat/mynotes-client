@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { AiFillSave } from "react-icons/ai";
 import axios from "axios";
-import Spinner from "../components/common/Spinner";
-import Navbar from "../components/common/Navbar";
+import Spinner from "../../components/common/Spinner";
+import Navbar from "../../components/common/Navbar";
 const CreateNote = () => {
   const [noteFields, setNoteFields] = useState({
     title: "",
@@ -49,7 +49,7 @@ const CreateNote = () => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "https://mynotes-server-jznn.onrender.com/api/notes/",
+    url: "http://localhost/api/notes/",
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
       "Content-Type": "application/json",

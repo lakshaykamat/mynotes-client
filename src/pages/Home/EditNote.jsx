@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/common/Navbar";
+import Navbar from "../../components/common/Navbar";
 import { AiFillSave } from "react-icons/ai";
-import Spinner from "../components/common/Spinner";
+import Spinner from "../../components/common/Spinner";
 import axios from "axios";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { useParams } from "react-router-dom";
@@ -60,7 +60,7 @@ const EditNote = () => {
   let config = {
     method: "put",
     maxBodyLength: Infinity,
-    url: `https://mynotes-server-jznn.onrender.com/api/notes/${noteId}`,
+    url: `http://localhost/api/notes/${noteId}`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
       "Content-Type": "application/json",
@@ -89,7 +89,7 @@ const EditNote = () => {
   let config2 = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `https://mynotes-server-jznn.onrender.com/api/notes/${noteId}`,
+    url: `http://localhost/api/notes/${noteId}`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
@@ -100,7 +100,7 @@ const EditNote = () => {
       const response = await axios.request(config2);
       setNoteFields({
         title: response.data.title,
-        body: response.data.title,
+        body: response.data.body,
         tagsString: response.data.tags.join(" "),
       });
     } catch (error) {

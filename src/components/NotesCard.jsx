@@ -3,7 +3,7 @@ import axios from "axios";
 import { AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 const NoteCard = ({ title, body, tags, id }) => {
-  const limitedBody = body.length > 150 ? `${body.slice(0, 150)}...` : body;
+  const limitedBody = body.length > 70 ? `${body.slice(0, 70)}...` : body;
 
   const getAccessToken = () => {
     console.log("Fetching token...");
@@ -15,7 +15,7 @@ const NoteCard = ({ title, body, tags, id }) => {
   let config = {
     method: "delete",
     maxBodyLength: Infinity,
-    url: `https://mynotes-server-jznn.onrender.com/api/notes/${id}`,
+    url: `http://localhost/api/notes/${id}`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
@@ -38,7 +38,7 @@ const NoteCard = ({ title, body, tags, id }) => {
       
 
       <div className="flex justify-between items-center w-full">
-      <Link to={`/edit-note/${id}`}>
+      <Link to={`/home/edit-note/${id}`}>
       <h2 className="text-lg font-medium mb-2 hover:underline transition">{title}</h2>
       </Link>
         <AiOutlineDelete

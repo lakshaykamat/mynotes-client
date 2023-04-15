@@ -1,8 +1,9 @@
 import React from 'react'
 import {AiOutlineFileAdd} from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-import AllNotes from '../components/AllNotes'
-import Navbar from '../components/common/Navbar'
+import AllNotes from './AllNotes'
+import Navbar from '../../components/common/Navbar'
+import LandingPage from './LandingPage'
 
 const Home = () => {
   return (

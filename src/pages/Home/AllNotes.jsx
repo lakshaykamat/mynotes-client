@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import NoteCard from "./NotesCard";
-import NoteNotFound from "./NoteNotFound";
-import Spinner from "./common/Spinner";
+import NoteCard from "../../components/NotesCard";
+import NoteNotFound from "../../components/NoteNotFound";
+import Spinner from "../../components/common/Spinner";
 const AllNotes = () => {
   const navigate = useNavigate();
   const [allNotes, setAllNotes] = useState(null);
@@ -18,7 +18,7 @@ const AllNotes = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: "https://mynotes-server-jznn.onrender.com/api/notes/",
+    url: "http://localhost/api/notes/",
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
