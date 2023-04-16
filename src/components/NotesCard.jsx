@@ -6,7 +6,7 @@ const NoteCard = ({ title, body, tags, id }) => {
   const limitedBody = body.length > 70 ? `${body.slice(0, 70)}...` : body;
 
   const getAccessToken = () => {
-    console.log("Fetching token...");
+
     const token = localStorage.getItem("token");
     if (!token) navigate("/login");
     return JSON.parse(token).accessToken;
@@ -15,7 +15,7 @@ const NoteCard = ({ title, body, tags, id }) => {
   let config = {
     method: "delete",
     maxBodyLength: Infinity,
-    url: `http://localhost/api/notes/${id}`,
+    url: `https://mynotes-server-jznn.onrender.com/api/notes/${id}`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
@@ -24,7 +24,6 @@ const NoteCard = ({ title, body, tags, id }) => {
   async function makeRequest() {
     try {
       const response = await axios.request(config);
-      console.log(JSON.stringify(response.data));
     } catch (error) {
       console.log(error);
     }

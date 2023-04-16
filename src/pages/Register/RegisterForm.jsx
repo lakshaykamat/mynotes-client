@@ -51,7 +51,7 @@ const RegistrationForm = () => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://localhost/api/user/register',
+    url: 'https://mynotes-server-jznn.onrender.com/api/user/register',
     headers: {
       'Content-Type': 'application/json'
     },

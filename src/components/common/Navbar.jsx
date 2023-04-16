@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation()
   const token = localStorage.getItem("token");
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -45,19 +46,19 @@ const Navbar = () => {
             <div className="ml-10 flex items-center space-x-4">
               <Link
                 to="/home"
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                className={`${location.pathname === "/home" && "bg-gray-600 text-white font-semibold"}  text-gray-300  px-3 py-2 rounded-md text-sm font-medium`}
               >
                 Home
               </Link>
               <Link
                 to="/about"
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                className={`${location.pathname === "/about" && "bg-gray-600 text-white font-semibold"}  text-gray-300  px-3 py-2 rounded-md text-sm font-medium`}
               >
                 About
               </Link>
               <Link
                 to="/contact"
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                className={`${location.pathname === "/contact" && "bg-gray-600 text-white font-semibold"}  text-gray-300  px-3 py-2 rounded-md text-sm font-medium`}
               >
                 Contact
               </Link>

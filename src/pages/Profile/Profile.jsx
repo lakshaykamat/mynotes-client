@@ -34,7 +34,7 @@ const Profile = () => {
   let currentUserConfig = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: 'http://localhost/api/user/current',
+    url: 'https://mynotes-server-jznn.onrender.com/api/user/current',
     headers: { 
       'Authorization':`Bearer ${getAccessToken()}`
     }

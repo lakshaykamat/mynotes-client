@@ -23,7 +23,7 @@ const LoginForm = () => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "http://localhost/api/user/login",
+    url: "https://mynotes-server-jznn.onrender.com/api/user/login",
     headers: {
       "Content-Type": "application/json",
     },
