@@ -51,7 +51,7 @@ const RegistrationForm = () => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'https://mynotes-server-jznn.onrender.com/api/user/register',
+    url: 'http://localhost/api/user/register',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -82,7 +82,6 @@ const RegistrationForm = () => {
 
   return (
     <>
-      <Navbar />
       <div className="w-full sm:w-96 bg-white p-6 rounded-md shadow-md mx-auto mt-8">
         <h1 className="text-2xl font-bold mb-6">Registration</h1>
         <form onSubmit={handleSubmit}>

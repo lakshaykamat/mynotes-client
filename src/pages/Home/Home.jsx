@@ -8,7 +8,6 @@ import LandingPage from './LandingPage'
 const Home = () => {
   return (
     <div>
-      <Navbar/>
       <AllNotes/>
       <Link to="create-note">
       <div title="Create Note" className='cursor-pointer fixed bottom-5 p-2 rounded-lg right-5 bg-slate-900'>

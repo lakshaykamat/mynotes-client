@@ -4,7 +4,6 @@ import Navbar from "../../components/common/Navbar";
 const ContactPage = () => {
   return (
     <>
-    <Navbar/>
     <div className="flex flex-col items-center mt-8">
       <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
       <p className="text-gray-600 text-lg mb-8">

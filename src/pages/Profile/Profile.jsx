@@ -63,7 +63,7 @@ const Profile = () => {
   
   async function deleteNoteData() {
     try {
-      const response = await axios.request(deleteNoteConfig);
+      await axios.request(deleteNoteConfig);
       alert("Deleted All Notes")
     }
     catch (error) {
@@ -75,7 +75,6 @@ const Profile = () => {
   
   return (
     <>
-      <Navbar/>
 
       {!profileData ? (
         <Spinner/>

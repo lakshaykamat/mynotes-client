@@ -26,7 +26,7 @@ const AllNotes = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: "https://mynotes-server-jznn.onrender.com/api/notes/",
+    url: "http://localhost/api/notes/",
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
@@ -52,10 +52,10 @@ const AllNotes = () => {
     fetchingNotes();
   }, [allNotes]);
 
-  //if notes is undefined return spinner
+  //IF savedAllNotes is undefined ==> return spinner
   if (!allNotes) {
     return <Spinner />
-    //if notes length is 0 then return note not found
+    //IF savedAllNotes length is 0 ==>  return note not found
   } else if (allNotes.length === 0) {
     return <NoteNotFound />
   }
@@ -75,6 +75,7 @@ const AllNotes = () => {
     try {
       const response = await axios.request(searchConfig);
       setSearchNote(response.data)
+      console.log(searchNote)
     }
     catch (error) {
       console.log(error);
@@ -82,31 +83,39 @@ const AllNotes = () => {
   }
 
 
-
   return (
     <div>
 
-        <SearchBar searchTerm={searchTerm} makeSearch={makeSearch} setSearchTerm={setSearchTerm} />
+      <SearchBar searchTerm={searchTerm} makeSearch={makeSearch} setSearchTerm={setSearchTerm} />
 
 
       {
-        //if search bar have any string or search notes array have any array so print the searched notes
-        searchTerm && searchNote ?
+        /*
+        IF searchbar have any string ==> HIT the API
+        IF searchNote is null ==> fetching the data ==> show spinner
+        IF searchNote array length is 0 ==> Note not found
+        IF searchNote array have any data ==> Show the note
+        */
+        searchTerm ?
           <div className="mx-4">
             <h1 className="text-2xl font-semibold my-4">Search Results for {searchTerm}</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2">
-              {
-                searchNote.map((item, index) => {
-                  return (
-                    <NoteCard
-                      key={index}
-                      id={item._id}
-                      title={item.title}
-                      body={item.body}
-                      tags={item.tags} />
+              {!searchNote ? <Spinner /> :
 
-                  )
-                })
+                searchNote.length === 0 ? <h1 className="text-3xl font-semibold">Not not found</h1> :
+                  searchNote.map((item, index) => {
+                    return (
+                      <NoteCard
+                      date={item.createdAt}
+                        key={index}
+                        id={item._id}
+                        title={item.title}
+                        body={item.body}
+                        tags={item.tags} />
+
+                    )
+                  })
+
               }
             </div>
           </div>
@@ -114,7 +123,7 @@ const AllNotes = () => {
 
           :
 
-          
+
           <>
             {/* SAVED NOTES */}
             <div className="my-7 mx-6 gap-2 flex flex-col">
@@ -125,6 +134,7 @@ const AllNotes = () => {
               {allNotes.map((item, index) => {
                 return (
                   <NoteCard
+                                        date={item.createdAt}
                     key={index}
                     id={item._id}
                     title={item.title}

@@ -23,7 +23,7 @@ const LoginForm = () => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "https://mynotes-server-jznn.onrender.com/api/user/login",
+    url: "http://localhost/api/user/login",
     headers: {
       "Content-Type": "application/json",
     },
@@ -57,7 +57,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <Navbar />
+
       <form onSubmit={handleSubmit} className="max-w-xl mx-5 sm:mx-auto mt-8">
         <h1 className="mb-5 text-3xl font-semibold">Login</h1>
         <div className="mb-4">

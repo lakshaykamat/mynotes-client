@@ -50,7 +50,7 @@ const CreateNote = () => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "https://mynotes-server-jznn.onrender.com/api/notes/",
+    url: "http://localhost/api/notes/",
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
       "Content-Type": "application/json",

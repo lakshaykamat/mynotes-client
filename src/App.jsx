@@ -15,6 +15,7 @@ import LandingPage from "./pages/Home/LandingPage";
 function App() {
   return (
     <>
+    <Navbar/>
       <Routes>
         <Route element={<PrivateComponents />}>
           <Route path="/home" element={<Home/>} />
