@@ -1,9 +1,11 @@
 import React from "react";
 import axios from "axios";
-import { AiOutlineDelete } from "react-icons/ai";
+import { FaTrashAlt } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 const NoteCard = ({ title, body, tags, id, date }) => {
+
   function formatDate (date) {
     // Define month names
     const monthNames = [
@@ -17,16 +19,19 @@ const NoteCard = ({ title, body, tags, id, date }) => {
     const day = date.getDate();
     const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
+
+    // Format the date string
+    return `${day} ${month} ${year}`
+  }
+
+  function formatTime (date) {
     const hour = date.getHours();
     const minute = date.getMinutes();
 
-    // Format the date string
-    const formattedDate = `${day} ${month} ${year} ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-
-    return formattedDate;
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
   }
-  const limitedBody = body.length > 70 ? `${body.slice(0, 70)}...` : body;
 
+  const limitedBody = body.length > 50 ? `${body.slice(0, 50)}...` : body;
   const getAccessToken = () => {
 
     const token = localStorage.getItem("token");
@@ -46,6 +51,16 @@ const NoteCard = ({ title, body, tags, id, date }) => {
   async function makeRequest () {
     try {
       const response = await axios.request(config);
+      toast.success('Deleted', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +68,10 @@ const NoteCard = ({ title, body, tags, id, date }) => {
 
   return (
     <>
-      <div
+
+ 
+
+      {/* <div
         id={id}
         className="bg-gray-600 flex flex-col justify-start items-start hover:bg-gray-800 transition outline outline-1 outline-slate-900  rounded-lg shadow-md p-6"
       >
@@ -71,7 +89,11 @@ const NoteCard = ({ title, body, tags, id, date }) => {
         </div>
 
         <p className="text-white mb-2" >{limitedBody}</p>
-        <span className="text-sm  mb-4 hover:underline transition text-white font-semibold">{formatDate(new Date(date))}</span>
+        <div className="flex flex-col mb-2">
+        <span className="text-sm  text-white">{formatDate(new Date(date))}</span>
+        <span className="text-sm  text-white font-thin">{formatTime(new Date(date))}</span>
+
+        </div>
         <div className="flex flex-wrap">
           {tags.map((tag) => (
             <span
@@ -82,32 +104,49 @@ const NoteCard = ({ title, body, tags, id, date }) => {
             </span>
           ))}
         </div>
-      </div>
+      </div> */}
 
 
-      {/* <div className="bg-gray-600 shadow-lg rounded-md p-4 max-w-xs mx-auto">
-      <h3 className="text-xl font-semibold mb-2">{title}</h3>
-      <p className="text-white">{body}</p>
-      {tags && tags.length > 0 && (
-        <div className="flex flex-wrap mt-2">
-          {tags.map((tag, index) => (
-            <span
-              key={index}
-              className="bg-gray-800 text-white font-medium rounded-full px-3 py-1 text-sm mr-2 mt-2"
+      <div
+        className="bg-gray-600 text-white p-4 rounded shadow-md" // Attach the right-click event handler
+      >
+        <div className="flex justify-between items-center mb-2">
+          <Link to={`/home/edit-note/${id}`}>
+            <div className="font-bold text-lg">{title}</div>
+          </Link>
+          <button
+            className="text-red-600 hover:text-red-700"
+            onClick={
+              () => {
+                const confirm = window.confirm("Delete Note")
+                if (confirm) makeRequest()
+              }
+            }
+          >
+            <FaTrashAlt />
+          </button>
+        </div>
+        <div className="text-gray-200 text-sm mb-2">{limitedBody}</div>
+        <div className="flex flex-wrap gap-1 mb-4">
+          {tags.map(tag => (
+            <div
+              key={tag}
+              className="bg-gray-200 text-gray-700 text-xs py-1 px-2 rounded"
             >
               {tag}
-            </span>
+            </div>
           ))}
         </div>
-      )}
-      <button
-        className="mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md flex items-center"
-        // onClick={onDelete}
-      >
-        <RiDeleteBinLine className="mr-2" />
-        Delete
-      </button>
-    </div> */}
+        <div className="flex justify-between items-center text-gray-500 text-xs">
+          <div className="flex items-center text-gray-300">
+            <span>{formatDate(new Date(date))}</span>
+          </div>
+          <div className="flex items-center text-gray-300">
+            <span>{formatTime(new Date(date))}</span>
+          </div>
+        </div>
+      </div>
+
     </>
   )
 };

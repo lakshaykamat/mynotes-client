@@ -1,23 +1,20 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Assuming you're using React Router for routing
-import Navbar from "../../components/common/Navbar";
 
 const LandingPage = () => {
   const navigate = useNavigate()
   const getAccessToken = () => {
     const token = localStorage.getItem("token");
-    if (!token) navigate("/login");
-    return JSON.parse(token).accessToken;
+    if(token){
+      navigate("/home");
+    }
   };
   useEffect(()=>{
-    if(getAccessToken()){
-      navigate('/home')
-    }
+    getAccessToken()
   },[])
 
   return (
     <>
-      <Navbar />
 
       <div className="bg-gradient-to-r from-gray-800 to-gray-600 min-h-screen flex items-center justify-center">
         <div className="text-white max-w-xl mx-auto">

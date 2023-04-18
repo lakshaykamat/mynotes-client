@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import axios from "axios";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { AiFillSave } from "react-icons/ai";
-import axios from "axios";
+
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Spinner from "../../components/common/Spinner";
-import Navbar from "../../components/common/Navbar";
-import ToggleButton from "./ToggleButton";
 const CreateNote = () => {
   const [noteFields, setNoteFields] = useState({
     title: "",
@@ -62,30 +63,49 @@ const CreateNote = () => {
     try {
       const response = await axios.request(config);
       setSavedNote(response.data);
+      toast.success('Saved', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
     } catch (error) {
       console.log(error);
     }
   }
 
   const handleSubmit = async () => {
-    if(!noteFields.title){
+
+    if (!noteFields.title) {
       alert("Title is required")
-    }else{
-      setSavedNote(null);
+    } else {
+      // setSavedNote(null);
       makeRequest();
     }
   };
   if (!savedNote) {
     return (
-      <>
-        <Navbar />
-        <Spinner />
-      </>
+      <Spinner />
     )
   }
   return (
     <>
-      <Navbar />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="m-6 flex flex-col gap-4">
         <input
           className="text-3xl font-bold w-full border- outline-none"

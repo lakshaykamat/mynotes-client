@@ -37,19 +37,22 @@ const Navbar = () => {
               className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
               <div className="flex justify-center items-center">
-              PI Notes <img className="w-9 h-9 mx-3" src="https://cdn-icons-png.flaticon.com/512/3075/3075908.png"/>
+                PI Notes <img className="w-9 h-9 mx-3" src="https://cdn-icons-png.flaticon.com/512/3075/3075908.png" />
               </div>
             </Link>
 
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
+              {
+                localStorage.getItem("token") &&
               <Link
                 to="/home"
                 className={`${location.pathname === "/home" && "bg-gray-600 text-white font-semibold"}  text-gray-300  px-3 py-2 rounded-md text-sm font-medium`}
               >
                 Home
               </Link>
+                }
               <Link
                 to="/about"
                 className={`${location.pathname === "/about" && "bg-gray-600 text-white font-semibold"}  text-gray-300  px-3 py-2 rounded-md text-sm font-medium`}
@@ -67,13 +70,13 @@ const Navbar = () => {
                 <>
                   <Link
                     to="/login"
-                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className={`${location.pathname === "/login" && "bg-gray-600 text-white font-semibold"}  text-gray-300  px-3 py-2 rounded-md text-sm font-medium`}
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
-                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className={`${location.pathname === "/register" && "bg-gray-600 text-white font-semibold"}  text-gray-300  px-3 py-2 rounded-md text-sm font-medium`}
                   >
                     Register
                   </Link>

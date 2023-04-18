@@ -6,6 +6,7 @@ import NoteCard from "../../components/NotesCard";
 import NoteNotFound from "../../components/NoteNotFound";
 import Spinner from "../../components/common/Spinner";
 import SearchBar from "./SearchBar";
+import { ToastContainer } from "react-toastify";
 
 const AllNotes = () => {
 
@@ -53,12 +54,7 @@ const AllNotes = () => {
   }, [allNotes]);
 
   //IF savedAllNotes is undefined ==> return spinner
-  if (!allNotes) {
-    return <Spinner />
-    //IF savedAllNotes length is 0 ==>  return note not found
-  } else if (allNotes.length === 0) {
-    return <NoteNotFound />
-  }
+  if (!allNotes) return <Spinner />
 
 
 
@@ -85,7 +81,18 @@ const AllNotes = () => {
 
   return (
     <div>
-
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <SearchBar searchTerm={searchTerm} makeSearch={makeSearch} setSearchTerm={setSearchTerm} />
 
 
@@ -99,25 +106,34 @@ const AllNotes = () => {
         searchTerm ?
           <div className="mx-4">
             <h1 className="text-2xl font-semibold my-4">Search Results for {searchTerm}</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2">
-              {!searchNote ? <Spinner /> :
+            {
+              !searchNote ?
+                <>
+                  <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2`}>
+                    <Spinner />
+                  </div>
+                </>
+                :
+                <div className={` ${searchNote.length === 0 ? "flex  justify-center items-center" : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2"}`}>
+                  {
 
-                searchNote.length === 0 ? <h1 className="text-3xl font-semibold">Not not found</h1> :
-                  searchNote.map((item, index) => {
-                    return (
-                      <NoteCard
-                      date={item.createdAt}
-                        key={index}
-                        id={item._id}
-                        title={item.title}
-                        body={item.body}
-                        tags={item.tags} />
+                    searchNote.length === 0 ? <NoteNotFound /> :
+                      searchNote.map((item, index) => {
+                        return (
+                          <NoteCard
+                            date={item.createdAt}
+                            key={index}
+                            id={item._id}
+                            title={item.title}
+                            body={item.body}
+                            tags={item.tags} />
 
-                    )
-                  })
+                        )
+                      })
+                  }
+                </div>
+            }
 
-              }
-            </div>
           </div>
 
 
@@ -130,11 +146,11 @@ const AllNotes = () => {
               <h1 className="text-3xl font-bold">Saved Notes</h1>
               <h1 className="font-semibold">Total Notes {allNotes.length}</h1>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5 mx-6 my-2">
               {allNotes.map((item, index) => {
                 return (
                   <NoteCard
-                                        date={item.createdAt}
+                    date={item.createdAt}
                     key={index}
                     id={item._id}
                     title={item.title}

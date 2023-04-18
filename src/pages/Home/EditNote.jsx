@@ -112,7 +112,6 @@ const EditNote = () => {
 
   return (
     <>
-      <Navbar />
       {!savedNote ? (
         <Spinner />
       ) : (

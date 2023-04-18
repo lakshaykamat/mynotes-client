@@ -12,11 +12,16 @@ const Profile = () => {
     if (!token) navigate("/login");
   });
   const logout = () => {
-    localStorage.clear();
-    navigate("/login");
+    const confirmAction = window.confirm("Are you sure you want to logout?")
+    if(confirmAction){
+      localStorage.clear();
+      navigate("/login");
+    }
   };
   const deleteAllNotes = () => {
-    deleteNoteData()
+    if(window.confirm("DANGER: Delete all Notes")){
+      deleteNoteData()
+    }
   };
 
 
@@ -71,14 +76,11 @@ const Profile = () => {
     }
   }
   
-  
+  if(!profileData) return <Spinner/>
   
   return (
     <>
 
-      {!profileData ? (
-        <Spinner/>
-      ) : (
         <ProfileCard
           userImg={profileData.avatar}
           name={profileData.name}
@@ -86,7 +88,6 @@ const Profile = () => {
           logout={logout}
           deleteAllNotes={deleteAllNotes}
         />
-      )}
     </>
   );
 };
