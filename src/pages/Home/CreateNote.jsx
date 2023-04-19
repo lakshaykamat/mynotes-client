@@ -6,7 +6,9 @@ import { AiFillSave } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Spinner from "../../components/common/Spinner";
+import { useNavigate } from "react-router-dom";
 const CreateNote = () => {
+  const navigate = useNavigate()
   const [noteFields, setNoteFields] = useState({
     title: "",
     body: "",
@@ -48,7 +50,7 @@ const CreateNote = () => {
     tags: noteTags[0] == "#" ? ["#general"] : noteTags,
   });
 
-  let config = {
+  let saveNoteConfig = {
     method: "post",
     maxBodyLength: Infinity,
     url: "http://localhost/api/notes/",
@@ -59,23 +61,29 @@ const CreateNote = () => {
     data: data,
   };
 
-  async function makeRequest () {
-    try {
-      const response = await axios.request(config);
-      setSavedNote(response.data);
-      toast.success('Saved', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  async function saveNoteToDB () {
+
+    toast.promise(
+      new Promise(async (resolve, reject) => {
+        try {
+          const response = await axios.request(saveNoteConfig);
+          setSavedNote(response.data);
+          resolve("OKAY")
+        } catch (error) {
+          reject(error);
+        }
+      }),
+      {
+        pending: "Saving...",
+        success: "Saved",
+        error: "Failed to Save",
+        duration: 5000,
+        onClose: () => {
+          console.log("Toast closed");
+        },
+      }
+    );
+
   }
 
   const handleSubmit = async () => {
@@ -83,8 +91,7 @@ const CreateNote = () => {
     if (!noteFields.title) {
       alert("Title is required")
     } else {
-      // setSavedNote(null);
-      makeRequest();
+      saveNoteToDB();
     }
   };
   if (!savedNote) {

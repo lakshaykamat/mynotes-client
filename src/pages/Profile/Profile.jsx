@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../../components/common/Spinner";
 import Navbar from "../../components/common/Navbar";
+import { ToastContainer, toast } from "react-toastify";
 const Profile = () => {
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState(null);
@@ -10,7 +11,7 @@ const Profile = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) navigate("/login");
-  });
+  },[]);
   const logout = () => {
     const confirmAction = window.confirm("Are you sure you want to logout?")
     if(confirmAction){
@@ -34,7 +35,7 @@ const Profile = () => {
 
   useEffect(()=>{
     currentUserData()
-  },[profileData])
+  },[])
 
   let currentUserConfig = {
     method: 'get',
@@ -67,20 +68,45 @@ const Profile = () => {
   };
   
   async function deleteNoteData() {
-    try {
-      await axios.request(deleteNoteConfig);
-      alert("Deleted All Notes")
-    }
-    catch (error) {
-      console.log(error);
-    }
+
+    toast.promise(
+      new Promise(async (resolve, reject) => {
+        try {
+          await axios.request(deleteNoteConfig);
+          resolve("OKAY")
+        } catch (error) {
+          reject(error);
+        }
+      }),
+      {
+        pending: "Deleting...",
+        success: "Deleted",
+        error: "Failed to Save",
+        duration: 5000,
+        onClose: () => {
+          console.log("Toast closed");
+        },
+      }
+    );
+
   }
   
   if(!profileData) return <Spinner/>
   
   return (
     <>
-
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
         <ProfileCard
           userImg={profileData.avatar}
           name={profileData.name}
@@ -111,7 +137,7 @@ const ProfileCard = ({ userImg, name, email, logout, deleteAllNotes }) => {
           onClick={deleteAllNotes}
           className="bg-red-500 text-white px-4 py-2 rounded"
         >
-          Delete All
+          Delete All Notes
         </button>
       </div>
     </div>
