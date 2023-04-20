@@ -4,7 +4,7 @@ import axios from "axios";
 import Spinner from "../../components/common/Spinner";
 import Navbar from "../../components/common/Navbar";
 import { ToastContainer, toast } from "react-toastify";
-const Profile = () => {
+const Profile = ({server_url}) => {
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState(null);
   
@@ -40,7 +40,7 @@ const Profile = () => {
   let currentUserConfig = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: 'https://mynotes-server-jznn.onrender.com/api/user/current',
+    url: `${server_url}/api/user/current`,
     headers: { 
       'Authorization':`Bearer ${getAccessToken()}`
     }
@@ -61,7 +61,7 @@ const Profile = () => {
   let deleteNoteConfig = {
     method: 'delete',
     maxBodyLength: Infinity,
-    url: 'http://localhost/api/notes/',
+    url: `${server_url}/api/notes/`,
     headers: { 
       'Authorization': `Bearer ${getAccessToken()}`
     }

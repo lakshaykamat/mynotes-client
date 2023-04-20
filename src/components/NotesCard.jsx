@@ -4,7 +4,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-const NoteCard = ({ title, body, tags, id, date }) => {
+const NoteCard = ({ title, body, tags, id, date,server_url }) => {
 
   function formatDate (date) {
     // Define month names
@@ -42,7 +42,7 @@ const NoteCard = ({ title, body, tags, id, date }) => {
   let config = {
     method: "delete",
     maxBodyLength: Infinity,
-    url: `http://localhost/api/notes/${id}`,
+    url: `${server_url}/api/notes/${id}`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
@@ -68,44 +68,6 @@ const NoteCard = ({ title, body, tags, id, date }) => {
 
   return (
     <>
-
- 
-
-      {/* <div
-        id={id}
-        className="bg-gray-600 flex flex-col justify-start items-start hover:bg-gray-800 transition outline outline-1 outline-slate-900  rounded-lg shadow-md p-6"
-      >
-
-
-        <div className="flex justify-between items-center w-full">
-          <Link to={`/home/edit-note/${id}`}>
-            <h2 className="text-xl  mb-2 hover:underline transition text-white font-semibold">{title}</h2>
-          </Link>
-          <RiDeleteBinLine
-            title="Delete Note"
-            onClick={makeRequest}
-            className="w-6 text-white hover:text-red-600 h-6"
-          />
-        </div>
-
-        <p className="text-white mb-2" >{limitedBody}</p>
-        <div className="flex flex-col mb-2">
-        <span className="text-sm  text-white">{formatDate(new Date(date))}</span>
-        <span className="text-sm  text-white font-thin">{formatTime(new Date(date))}</span>
-
-        </div>
-        <div className="flex flex-wrap">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="bg-gray-200 rounded-full text-gray-700 text-sm px-3 py-1 mr-2 mb-2"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div> */}
-
 
       <div
         className="bg-gray-600 text-white p-4 rounded shadow-md" // Attach the right-click event handler

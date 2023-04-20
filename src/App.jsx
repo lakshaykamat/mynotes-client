@@ -13,15 +13,16 @@ import ContactPage from "./pages/Contact/ContactPage";
 import LandingPage from "./pages/Home/LandingPage";
 
 function App() {
+  const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
   return (
     <>
     <Navbar/>
       <Routes>
         <Route element={<PrivateComponents />}>
-          <Route path="/home" element={<Home/>} />
-          <Route path="/profile" element={<Profile/>} />
-          <Route path="/home/create-note" element={<CreateNote/>} />
-          <Route path="/home/edit-note/:noteId" element={<EditNote/>} />
+          <Route path="/home" element={<Home server_url={SERVER_URL}/>} />
+          <Route path="/profile" element={<Profile  server_url={SERVER_URL}/>} />
+          <Route path="/home/create-note" element={<CreateNote  server_url={SERVER_URL}/>} />
+          <Route path="/home/edit-note/:noteId" element={<EditNote  server_url={SERVER_URL}/>} />
         </Route>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<LandingPage/>} />

@@ -12,7 +12,7 @@ const avatars = [
   "https://i.pinimg.com/736x/46/1b/ee/461beee3231bfe5d9db0ea7d85de82dc.jpg",
 ]; // Replace with your avatar images
 
-const RegistrationForm = () => {
+const RegistrationForm = ({server_url}) => {
   const navigate = useNavigate();
   const [errMessage, setErrorMessage] = useState('')
   const [name, setName] = useState("");
@@ -51,7 +51,7 @@ const RegistrationForm = () => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://localhost/api/user/register',
+    url: `${server_url}/api/user/register`,
     headers: {
       'Content-Type': 'application/json'
     },

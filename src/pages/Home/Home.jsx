@@ -5,10 +5,10 @@ import AllNotes from './AllNotes'
 import Navbar from '../../components/common/Navbar'
 import LandingPage from './LandingPage'
 
-const Home = () => {
+const Home = ({server_url}) => {
   return (
     <div>
-      <AllNotes/>
+      <AllNotes server_url={server_url}/>
       <Link to="create-note">
       <div title="Create Note" className='cursor-pointer fixed bottom-5 p-2 rounded-lg right-5 bg-slate-900'>
         <AiOutlineFileAdd className='text-white w-7 h-7'/>

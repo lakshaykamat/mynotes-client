@@ -8,7 +8,7 @@ import Spinner from "../../components/common/Spinner";
 import SearchBar from "./SearchBar";
 import { ToastContainer } from "react-toastify";
 
-const AllNotes = () => {
+const AllNotes = ({server_url}) => {
 
   const navigate = useNavigate();
   //state for search bar
@@ -27,7 +27,7 @@ const AllNotes = () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: "http://localhost/api/notes/",
+    url: `${server_url}/api/notes/`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },
@@ -61,7 +61,7 @@ const AllNotes = () => {
   let searchConfig = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://localhost/api/notes/search/${searchTerm}`,
+    url: `${server_url}/api/notes/search/${searchTerm}`,
     headers: {
       'Authorization': `Bearer ${getAccessToken()}`
     }
@@ -126,7 +126,8 @@ const AllNotes = () => {
                             id={item._id}
                             title={item.title}
                             body={item.body}
-                            tags={item.tags} />
+                            tags={item.tags}
+                            server_url={server_url} />
 
                         )
                       })

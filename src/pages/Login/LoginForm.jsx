@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../components/common/Navbar";
-import Spinner from "../../components/common/Spinner";
 import ObjectSpinner from "../../components/common/ObjectSpinner";
-const LoginForm = () => {
+const LoginForm = (server_url) => {
   const navigate = useNavigate();
   const [loginField, setLoginFiled] = useState({ email: "", password: "" });
   const [loginData, setLoginData] = useState({})
@@ -23,7 +21,7 @@ const LoginForm = () => {
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "http://localhost/api/user/login",
+    url: `${server_url}/api/user/login`,
     headers: {
       "Content-Type": "application/json",
     },

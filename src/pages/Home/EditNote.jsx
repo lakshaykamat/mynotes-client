@@ -60,7 +60,7 @@ const EditNote = () => {
   let config = {
     method: "put",
     maxBodyLength: Infinity,
-    url: `http://localhost/api/notes/${noteId}`,
+    url: `${process.env.REACT_APP_LOCAL_SERVER}/api/notes/${noteId}`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
       "Content-Type": "application/json",
@@ -89,7 +89,7 @@ const EditNote = () => {
   let config2 = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `http://localhost/api/notes/${noteId}`,
+    url: `${process.env.REACT_APP_LOCAL_SERVER}/api/notes/${noteId}`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
     },

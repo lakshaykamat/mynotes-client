@@ -53,7 +53,7 @@ const CreateNote = () => {
   let saveNoteConfig = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "http://localhost/api/notes/",
+    url: `${process.env.REACT_APP_LOCAL_SERVER}/api/notes/`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
       "Content-Type": "application/json",
