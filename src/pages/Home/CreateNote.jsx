@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import ReactTextareaAutosize from "react-textarea-autosize";
+import axios from "axios";
 import { AiFillSave } from "react-icons/ai";
-
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+
 import Spinner from "../../components/common/Spinner";
-import { useNavigate } from "react-router-dom";
+
+
 const CreateNote = () => {
   const navigate = useNavigate()
   const [noteFields, setNoteFields] = useState({
@@ -53,7 +55,7 @@ const CreateNote = () => {
   let saveNoteConfig = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "http://localhost/api/notes/",
+    url: "https://mynotes-server-jznn.onrender.com/api/notes/",
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
       "Content-Type": "application/json",
@@ -144,8 +146,9 @@ const CreateNote = () => {
 
       <div
         onClick={handleSubmit}
-        className=" drop-shadow-md bg-slate-200 p-2 cursor-pointer rounded-lg fixed bottom-5 right-5"
+        className="flex flex-row-reverse items-center justify-center drop-shadow-md bg-slate-200 transition px-5 py-3 font-bold gap-3 cursor-pointer rounded-lg fixed bottom-5 right-5"
       >
+      <h1 className="font-bold">SAVE</h1>
         <AiFillSave className="w-9 h-9" />
       </div>
     </>

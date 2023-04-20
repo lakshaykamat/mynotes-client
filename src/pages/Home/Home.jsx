@@ -10,7 +10,8 @@ const Home = () => {
     <div>
       <AllNotes/>
       <Link to="create-note">
-      <div title="Create Note" className='cursor-pointer fixed bottom-5 p-2 rounded-lg right-5 bg-slate-900'>
+      <div title="Create Note" className='cursor-pointer flex flex-row-reverse fixed bottom-5 px-5 gap-3 py-3 hover:bg-slate-900 rounded-lg right-5 bg-slate-700'>
+      <h1 className='text-white font-bold'>New Note</h1>
         <AiOutlineFileAdd className='text-white w-7 h-7'/>
       </div>
       </Link>

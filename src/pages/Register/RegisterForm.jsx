@@ -51,7 +51,7 @@ const RegistrationForm = () => {
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://localhost/api/user/register',
+    url: 'https://mynotes-server-jznn.onrender.com/api/user/register',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -132,7 +132,7 @@ const RegistrationForm = () => {
           </button>
           <div className="flex justify-between items-center mt-2">
             <p className="text-sm text-red-500 ">{errMessage}</p>
-            <p className="text-sm">Already have an account <Link to='/register' className="underline text-blue-700">Login</Link></p>
+            <p className="text-sm">Already have an account <Link to='/login' className="underline text-blue-700">Login</Link></p>
           </div>
 
         </form>
