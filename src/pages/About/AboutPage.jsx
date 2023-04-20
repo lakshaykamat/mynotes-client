@@ -4,8 +4,8 @@ import Navbar from "../../components/common/Navbar";
 const AboutPage = () => {
   return (
     <>
-    <div className="flex flex-col items-center mt-8">
-      <h1 className="text-4xl font-bold mb-4">About Notes App</h1>
+    <div className="flex flex-col items-center mt-8 mx-3">
+      <h1 className="text-4xl font-bold mb-4">About us</h1>
       <p className="text-gray-600 text-lg mb-8">
         Welcome to Notes App, a simple and intuitive way to keep track of your notes!
       </p>

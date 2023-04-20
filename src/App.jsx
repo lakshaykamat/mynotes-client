@@ -13,10 +13,11 @@ import ContactPage from "./pages/Contact/ContactPage";
 import LandingPage from "./pages/Home/LandingPage";
 
 function App() {
+  // const SERVER_URL = "http://localhost"
   const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
   return (
     <>
-    <Navbar/>
+    <Navbar server_url={SERVER_URL}/>
       <Routes>
         <Route element={<PrivateComponents />}>
           <Route path="/home" element={<Home server_url={SERVER_URL}/>} />
@@ -26,8 +27,8 @@ function App() {
         </Route>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<LandingPage/>} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/login" element={<LoginForm server_url={SERVER_URL}/>} />
+          <Route path="/register" element={<RegisterForm server_url={SERVER_URL}/>} />
           <Route path="/about" element={<AboutPage/>} />
           <Route path="/contact" element={<ContactPage/>} />
       </Routes>

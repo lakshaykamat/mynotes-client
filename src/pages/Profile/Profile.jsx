@@ -49,6 +49,7 @@ const Profile = ({server_url}) => {
   async function currentUserData() {
     try {
       const response = await axios.request(currentUserConfig);
+      console.log(response.data)
       setProfileData(response.data)
     }
     catch (error) {
@@ -112,12 +113,31 @@ const Profile = ({server_url}) => {
           name={profileData.name}
           email={profileData.email}
           logout={logout}
+          createdAt={profileData.createdAt}
           deleteAllNotes={deleteAllNotes}
         />
     </>
   );
 };
-const ProfileCard = ({ userImg, name, email, logout, deleteAllNotes }) => {
+const ProfileCard = ({ userImg, name, email,createdAt ,logout, deleteAllNotes }) => {
+  function formatDate (date) {
+    // Define month names
+    const monthNames = [
+      "Jan", "Feb", "Mar",
+      "Apr", "May", "Jun", "Jul",
+      "Aug", "Sep", "Oct",
+      "Nov", "Dec"
+    ];
+
+    // Get date components
+    const day = date.getDate();
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+
+    // Format the date string
+    return `${month} ${year}`
+    return `${day} ${month} ${year}`
+  }
   return (
     <>  
     <div className="flex flex-col items-center bg-slate-700 sm:w-[50%] my-8 mx-3 sm:mx-auto rounded-lg shadow-lg p-8">
@@ -125,7 +145,11 @@ const ProfileCard = ({ userImg, name, email, logout, deleteAllNotes }) => {
         <img src={userImg} alt="Avatar" className="w-full h-full object-cover" />
       </div>
       <h2 className="text-2xl text-white font-bold mt-4">{name}</h2>
-      <p className="text-white">{email}</p>
+      <p className="text-white"><span className="font-semibold">Email: </span>{email}</p>
+      <p className="text-white"><span className="font-semibold">Created At:</span> {formatDate(new Date(createdAt))}</p>
+      <div>
+
+      </div>
       <div className="mt-8 flex flex-wrap justify-start items-center gap-2">
         <button
           onClick={logout}

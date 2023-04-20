@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Spinner from "../../components/common/Spinner";
 import { useNavigate } from "react-router-dom";
-const CreateNote = () => {
+const CreateNote = ({server_url}) => {
   const navigate = useNavigate()
   const [noteFields, setNoteFields] = useState({
     title: "",
@@ -47,13 +47,14 @@ const CreateNote = () => {
   let data = JSON.stringify({
     title: noteFields.title,
     body: noteFields.body,
-    tags: noteTags[0] == "#" ? ["#general"] : noteTags,
+    tags: noteTags.length !== 0 && noteTags,
+    // tags: noteTags[0] == "#" ? ["#general"] : noteTags,
   });
 
   let saveNoteConfig = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${process.env.REACT_APP_LOCAL_SERVER}/api/notes/`,
+    url: `${server_url}/api/notes/`,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
       "Content-Type": "application/json",
@@ -67,6 +68,7 @@ const CreateNote = () => {
       new Promise(async (resolve, reject) => {
         try {
           const response = await axios.request(saveNoteConfig);
+          console.log(response.data)
           setSavedNote(response.data);
           resolve("OKAY")
         } catch (error) {
@@ -144,8 +146,9 @@ const CreateNote = () => {
 
       <div
         onClick={handleSubmit}
-        className=" drop-shadow-md bg-slate-200 p-2 cursor-pointer rounded-lg fixed bottom-5 right-5"
+        className="flex flex-row-reverse justify-center items-center font-bold drop-shadow-md bg-slate-200 gap-3 p-2 cursor-pointer rounded-lg fixed bottom-5 right-5"
       >
+      <h1>SAVE</h1>
         <AiFillSave className="w-9 h-9" />
       </div>
     </>

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../components/common/Navbar";
 import React from "react";
+import ObjectSpinner from "../../components/common/ObjectSpinner";
 
 
 const avatars = [
@@ -10,7 +10,7 @@ const avatars = [
   "https://i.pinimg.com/564x/cb/e4/c9/cbe4c9f2d7ab0bc469c0c2bc05e65832.jpg",
   "https://i.pinimg.com/736x/63/72/c9/6372c92952a1af9fb1e6eab95aeb7915.jpg",
   "https://i.pinimg.com/736x/46/1b/ee/461beee3231bfe5d9db0ea7d85de82dc.jpg",
-]; // Replace with your avatar images
+];
 
 const RegistrationForm = ({server_url}) => {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ const RegistrationForm = ({server_url}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [registerDetail,setRegisterDetail] = useState({})
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -37,6 +38,7 @@ const RegistrationForm = ({server_url}) => {
   };
 
   const handleSubmit = (e) => {
+    setRegisterDetail(null)
     e.preventDefault();
     makeRequest();
 
@@ -62,7 +64,7 @@ const RegistrationForm = ({server_url}) => {
     try {
       setErrorMessage("");
       const response = await axios.request(config);
-      console.log(JSON.stringify(response.data));
+      setRegisterDetail(response.data)
       localStorage.setItem("token", JSON.stringify(response.data));
       navigate("/home")
     }
@@ -70,10 +72,12 @@ const RegistrationForm = ({server_url}) => {
       console.log(error);
       if (error.response.data.message) {
         setErrorMessage(error.response.data.message);
+        setRegisterDetail({})
       } else if (error.response.data.errors) {
         setErrorMessage(
           `${error.response.data.errors[0].msg} in ${error.response.data.errors[0].param}`
-        );
+          );
+          setRegisterDetail({})
       }
     }
   }
@@ -125,14 +129,14 @@ const RegistrationForm = ({server_url}) => {
           </div>
           <button
             type="submit"
-            className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full"
-            // disabled={!name || !email || !password || !selectedAvatar}
+            className="flex justify-center items-center mt-6 text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full"
+            disabled={registerDetail ?  false : true}
           >
-            Register
+            {registerDetail ? "Register" : <ObjectSpinner/>}
           </button>
           <div className="flex justify-between items-center mt-2">
             <p className="text-sm text-red-500 ">{errMessage}</p>
-            <p className="text-sm">Already have an account <Link to='/register' className="underline text-blue-700">Login</Link></p>
+            <p className="text-sm">Already have an account <Link to='/login' className="underline text-blue-700">Login</Link></p>
           </div>
 
         </form>

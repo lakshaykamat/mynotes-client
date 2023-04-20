@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import ObjectSpinner from "../../components/common/ObjectSpinner";
-const LoginForm = (server_url) => {
+const LoginForm = ({server_url}) => {
+  console.log(server_url)
   const navigate = useNavigate();
   const [loginField, setLoginFiled] = useState({ email: "", password: "" });
   const [loginData, setLoginData] = useState({})

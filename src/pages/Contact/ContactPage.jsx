@@ -1,15 +1,14 @@
 import React from "react";
-import Navbar from "../../components/common/Navbar";
 
 const ContactPage = () => {
   return (
     <>
-    <div className="flex flex-col items-center mt-8">
+    <div className="mt-8 mx-3 flex flex-col justify-center  max-w-lg sm:mx-auto">
       <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
       <p className="text-gray-600 text-lg mb-8">
         If you have any questions or feedback, please feel free to reach out to us!
       </p>
-      <form className="max-w-md  bg-gray-300 px-9 py-5 rounded drop-shadow-lg">
+      <form className="max-w-4xl bg-gray-300 px-9 py-5 rounded drop-shadow-lg">
         <div className="mb-4 ">
           <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
             Name

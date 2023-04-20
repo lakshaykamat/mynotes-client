@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs";
+import axios from "axios";
 
-const Navbar = () => {
+const Navbar = ({server_url}) => {
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
+  const [profilePIC,setProfilePIC] = useState('')
   const location = useLocation()
   const token = localStorage.getItem("token");
   const toggleMenu = () => {
@@ -27,6 +30,36 @@ const Navbar = () => {
       dest: "Profile",
     },
   ];
+
+  const getAccessToken = () => {
+    console.log("Fetching token...");
+    const token = localStorage.getItem("token");
+    if (!token) return ;
+    return JSON.parse(token).accessToken;
+  };
+
+  let currentUserConfig = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `${server_url}/api/user/current`,
+    headers: { 
+      'Authorization':`Bearer ${getAccessToken()}`
+    }
+  };
+  
+  useEffect(()=>{
+    token && currentUserData()
+  },[token])
+  async function currentUserData() {
+    try {
+      const response = await axios.request(currentUserConfig);
+      setProfilePIC(response.data.avatar)
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,7 +119,11 @@ const Navbar = () => {
                   to="/profile"
                   className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  <BsPersonCircle title="Profile" className="w-6 h-6" />
+                {
+                profilePIC ? 
+                <img className="w-9 h-9 rounded-[50%]" src={`${profilePIC}`}></img> :
+                <BsPersonCircle title="Profile" className="w-6 h-6" />
+                }
                 </Link>
               )}
             </div>
@@ -181,7 +218,14 @@ const Navbar = () => {
               to="/profile"
               className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
-              <BsPersonCircle title="Profile" className="w-6 h-6" />
+            <div className="flex items-center gap-3">
+             {
+                profilePIC ? 
+                <img className="w-9 h-9 rounded-[50%]" src={`${profilePIC}`}></img> :
+                <BsPersonCircle title="Profile" className="w-6 h-6" />
+                }
+                <h1>Profile</h1>
+            </div>
             </Link>
           )}
         </div>
