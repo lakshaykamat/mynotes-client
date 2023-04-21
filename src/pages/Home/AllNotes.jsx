@@ -53,7 +53,7 @@ const AllNotes = ({ server_url }) => {
       if (response.data.length === 0) {
         setAllNotes([]);
       } else {
-        // console.log(response.data)
+        console.log(response.data)
         setAllNotes(response.data.notes);
         setFetchedTags(response.data.tags)
       }
