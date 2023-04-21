@@ -21,8 +21,6 @@ const AllNotes = ({ server_url }) => {
   const [searchNote, setSearchNote] = useState(null)
   //state for tags
   const [selectedTag, setSelectedTags] = useState("#general");
-  //fetchedTags
-  const [fetchedTags, setFetchedTags] = useState(null)
   //notes by tags
   const [notesByTag, setNotesByTag] = useState(null)
 
@@ -50,12 +48,10 @@ const AllNotes = ({ server_url }) => {
   async function fetchingNotes () {
     try {
       const response = await axios.request(config);
-      if (response.data.length === 0) {
+      if (response.data.notes.length === 0) {
         setAllNotes([]);
       } else {
-        console.log(response.data)
-        setAllNotes(response.data.notes);
-        setFetchedTags(response.data.tags)
+        setAllNotes(response.data);
       }
     } catch (error) {
       console.log(error)
@@ -68,6 +64,7 @@ const AllNotes = ({ server_url }) => {
 
   useEffect(()=>{
     fetchingNotes()
+
   },[allNotes])
 
   //IF savedAllNotes is undefined ==> return spinner
@@ -182,10 +179,11 @@ const AllNotes = ({ server_url }) => {
             {/* SAVED NOTES */}
             <div className="my-7 mx-6 gap-2 flex flex-col">
               <h1 className="text-3xl font-bold">Saved Notes</h1>
-              <h1 className="font-semibold">Total Notes {allNotes.length}</h1>
+              <h1 className="font-semibold">Total Notes {allNotes.notes && allNotes.notes.length}</h1>
               <div className="gap-3 flex flex-col justify-start items-start sm:items-center sm:justify-start sm:flex-row max-w-xl">
                 {
-                  allNotes.length !== 0 &&
+                  allNotes.notes &&
+                  allNotes.notes.length !== 0 &&
                   <>
                     <div className="flex  items-center gap-3">
                       <h1 className="font-bold">Tags</h1>
@@ -196,7 +194,7 @@ const AllNotes = ({ server_url }) => {
                       >
                         {
 
-                          fetchedTags.length > 0  && fetchedTags.map((item, index) => {
+                          allNotes.tags.length > 0  && allNotes.tags.map((item, index) => {
                             return <option key={index} value={item}>{item}</option>
                           })
                         }
@@ -219,7 +217,7 @@ const AllNotes = ({ server_url }) => {
             {
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5 mx-6 my-2">
-                  {!notesByTag ? allNotes.map((item, index) => {
+                  {!notesByTag ? allNotes.notes && allNotes.notes.map((item, index) => {
                     return (
                       <NoteCard
                         date={item.createdAt}
