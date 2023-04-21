@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import axios from "axios";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { AiFillSave } from "react-icons/ai";
@@ -37,12 +37,14 @@ const CreateNote = ({server_url}) => {
     }
     return myArray;
   };
-  const getAccessToken = () => {
-    console.log("Fetching token...");
-    const token = localStorage.getItem("token");
+
+let token;
+  const getAccessToken = useMemo(() => {
+    console.log("Fetching token...",token);
+    token = localStorage.getItem("token");
     if (!token) navigate("/login");
     return JSON.parse(token).accessToken;
-  };
+  },[token])
 
   let data = JSON.stringify({
     title: noteFields.title,
@@ -56,7 +58,7 @@ const CreateNote = ({server_url}) => {
     maxBodyLength: Infinity,
     url: `${server_url}/api/notes/`,
     headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
+      Authorization: `Bearer ${getAccessToken}`,
       "Content-Type": "application/json",
     },
     data: data,

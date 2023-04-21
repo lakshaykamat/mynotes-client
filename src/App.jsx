@@ -13,8 +13,8 @@ import ContactPage from "./pages/Contact/ContactPage";
 import LandingPage from "./pages/Home/LandingPage";
 
 function App() {
-  // const SERVER_URL = "http://localhost"
-  const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
+  const SERVER_URL = "http://localhost"
+  // const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
   return (
     <>
     <Navbar server_url={SERVER_URL}/>
