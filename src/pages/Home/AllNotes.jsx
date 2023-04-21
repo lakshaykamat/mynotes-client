@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import axios, { all } from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { BiFilterAlt } from 'react-icons/bi'
@@ -69,9 +69,6 @@ const AllNotes = ({ server_url }) => {
   useEffect(()=>{
     fetchingNotes()
   },[allNotes])
-  // useCallback(() => {
-  
-  // }, [allNotes]);
 
   //IF savedAllNotes is undefined ==> return spinner
   if (!allNotes) return <Spinner />
@@ -188,7 +185,7 @@ const AllNotes = ({ server_url }) => {
               <h1 className="font-semibold">Total Notes {allNotes.length}</h1>
               <div className="gap-3 flex flex-col justify-start items-start sm:items-center sm:justify-start sm:flex-row max-w-xl">
                 {
-                  allNotes.length!==0 &&
+                  allNotes.length !== 0 &&
                   <>
                     <div className="flex  items-center gap-3">
                       <h1 className="font-bold">Tags</h1>
