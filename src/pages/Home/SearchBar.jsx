@@ -5,7 +5,10 @@ const SearchBar = ({ searchTerm, setSearchTerm, makeSearch }) => {
 
     useEffect(()=>{
         console.log(searchTerm)
-        makeSearch()
+        if(searchTerm){
+            makeSearch()
+
+        }
     },[searchTerm])
     return (
         <div className="mx-5 mt-9  flex flex-col gap-3 max-w-xl sm:mx-auto">

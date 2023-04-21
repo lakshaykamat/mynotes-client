@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import axios from "axios";
 import { FaTrashAlt } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 const NoteCard = ({ title, body, tags, id, date,server_url }) => {
-
   function formatDate (date) {
     // Define month names
     const monthNames = [
@@ -32,38 +31,45 @@ const NoteCard = ({ title, body, tags, id, date,server_url }) => {
   }
 
   const limitedBody = body.length > 50 ? `${body.slice(0, 50)}...` : body;
-  const getAccessToken = () => {
-
-    const token = localStorage.getItem("token");
+  let token
+  const getAccessToken = useMemo(() => {
+    console.log("Fetching token...")
+     token = localStorage.getItem("token");
     if (!token) navigate("/login");
     return JSON.parse(token).accessToken;
-  };
+  },[token])
 
   let config = {
     method: "delete",
     maxBodyLength: Infinity,
     url: `${server_url}/api/notes/${id}`,
     headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
+      Authorization: `Bearer ${getAccessToken}`,
     },
   };
 
   async function makeRequest () {
-    try {
-      const response = await axios.request(config);
-      toast.success('Deleted', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } catch (error) {
-      console.log(error);
-    }
+
+    toast.promise(
+      new Promise(async (resolve, reject) => {
+        try {
+          await axios.request(config);
+          resolve("OKAY")
+        } catch (error) {
+          console.log(id)
+          reject(error);
+        }
+      }),
+      {
+        pending: "Deleting...",
+        success: "Deleted",
+        error: "Failed to Delete",
+        duration: 5000,
+        onClose: () => {
+          console.log("Toast closed");
+        },
+      }
+    );
   }
 
   return (
