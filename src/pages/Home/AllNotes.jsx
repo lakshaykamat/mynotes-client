@@ -104,7 +104,7 @@ const AllNotes = ({ server_url }) => {
   let notesByTagConfig = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `http://localhost/api/notes/tags/${selectedTag.substring(1)}`,
+    url: `${server_url}/api/notes/tags/${selectedTag.substring(1)}`,
     headers: {
       'Authorization': `Bearer ${getAccessToken}`
     }
