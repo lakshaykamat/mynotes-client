@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -40,7 +40,7 @@ const AllNotes = ({ server_url }) => {
 
 
 
-  async function fetchingNotes () {
+  const fetchingNotes = async () => {
     //!Fetch Notes API
     let config = {
       method: "get",
@@ -75,7 +75,10 @@ const AllNotes = ({ server_url }) => {
 
 
 
-  //! Search API
+
+
+  async function makeSearch () {
+      //! Search API
   let searchConfig = {
     method: 'get',
     maxBodyLength: Infinity,
@@ -84,8 +87,6 @@ const AllNotes = ({ server_url }) => {
       'Authorization': `Bearer ${getAccessToken}`
     }
   };
-
-  async function makeSearch () {
     try {
       const response = await axios.request(searchConfig);
       setSearchNote(response.data)
@@ -138,53 +139,14 @@ const AllNotes = ({ server_url }) => {
       />
       <SearchBar searchTerm={searchTerm} makeSearch={makeSearch} setSearchTerm={setSearchTerm} />
 
-
-
-      {/*
-        IF searchbar have any string ==> HIT the API
-        IF searchNote is null ==> fetching the data ==> show spinner
-        IF searchNote array length is 0 ==> Note not found
-        IF searchNote array have any data ==> Show the note
-        */}
       {
         searchTerm ?
-          <div className="mx-4">
-            <h1 className="text-2xl font-semibold my-4">Search Results for {searchTerm}</h1>
-            {
-              !searchNote ?
-                <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2`}>
-                  <Spinner />
-                </div>
-                :
-                <div className={` ${searchNote.length === 0 ? "flex  justify-center items-center" : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2"}`}>
-                  {
-                    searchNote.length === 0 ? <NoteNotFound /> :
-                      searchNote.map((item, index) => {
-                        return (
-                          <NoteCard
-                            date={item.createdAt}
-                            key={index}
-                            id={item._id}
-                            title={item.title}
-                            body={item.body}
-                            tags={item.tags}
-                            server_url={server_url} />
-                        )
-                      })
-                  }
-                </div>
-            }
-          </div>
+
+          <SearchResults searchTerm={searchTerm} searchNote={searchNote} server_url={server_url} />
+
           :
 
-
-
-
-
-
-
           <>
-            {/* SAVED NOTES */}
             <div className=" my-7 mx-6 gap-2 flex flex-col">
               <h1 className="text-3xl font-bold">Saved Notes</h1>
               <h1 className="font-semibold">Total Notes {allNotes.notes && allNotes.notes.length}</h1>
@@ -196,8 +158,6 @@ const AllNotes = ({ server_url }) => {
                     <div className="flex justify-between w-full items-center flex-wrap gap-3">
 
                       <div className="flex gap-3">
-
-
                         <div className="flex  items-center gap-3">
                           <h1 className="font-bold">Tags</h1>
                           <select
@@ -215,7 +175,6 @@ const AllNotes = ({ server_url }) => {
                           </select>
                         </div>
                         <div className="flex gap-3">
-
                           <button onClick={() => {
                             setSelectedTags('#all')
                             setNotesByTag(null)
@@ -235,7 +194,6 @@ const AllNotes = ({ server_url }) => {
             </div>
 
             {
-              <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5 mx-6 my-2">
                   {!notesByTag ? allNotes.notes && allNotes.notes.map((item, index) => {
                     return (
@@ -263,14 +221,13 @@ const AllNotes = ({ server_url }) => {
                     );
                   })}
                 </div>
-              </>
             }
           </>
       }
     </div>
   );
 };
-const SearchResults = (searchTerm, searchNote) => {
+const SearchResults = ({ searchTerm, searchNote, server_url }) => {
   return (
     <>
       {
