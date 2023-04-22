@@ -4,7 +4,9 @@ function ToggleButton({toggleButtonStatus,setToggleButtonStatus}) {
   return (
     <Switch
       checked={toggleButtonStatus}
-      onChange={setToggleButtonStatus}
+      onChange={
+        setToggleButtonStatus
+      }
       className={`${
         toggleButtonStatus ? 'bg-slate-600' : 'bg-gray-400'
       } relative inline-flex h-6 w-11 items-center rounded-full`}

@@ -39,17 +39,17 @@ const NoteCard = ({ title, body, tags, id, date,server_url }) => {
     return JSON.parse(token).accessToken;
   },[token])
 
-  let config = {
-    method: "delete",
-    maxBodyLength: Infinity,
-    url: `${server_url}/api/notes/${id}`,
-    headers: {
-      Authorization: `Bearer ${getAccessToken}`,
-    },
-  };
 
-  async function makeRequest () {
-
+  async function DeleteNote () {
+    let config = {
+      method: "delete",
+      maxBodyLength: Infinity,
+      url: `${server_url}/api/notes/${id}`,
+      headers: {
+        Authorization: `Bearer ${getAccessToken}`,
+      },
+    };
+  
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
@@ -87,7 +87,7 @@ const NoteCard = ({ title, body, tags, id, date,server_url }) => {
             onClick={
               () => {
                 const confirm = window.confirm("Delete Note")
-                if (confirm) makeRequest()
+                if (confirm) DeleteNote()
               }
             }
           >

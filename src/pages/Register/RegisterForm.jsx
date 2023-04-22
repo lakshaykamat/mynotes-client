@@ -3,14 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import ObjectSpinner from "../../components/common/ObjectSpinner";
+import avatars from '../../assets/avatars.js'
 
-
-const avatars = [
-  "https://i.pinimg.com/564x/df/fd/8d/dffd8d43211474e8c10f9bad6a162b4b.jpg",
-  "https://i.pinimg.com/564x/cb/e4/c9/cbe4c9f2d7ab0bc469c0c2bc05e65832.jpg",
-  "https://i.pinimg.com/736x/63/72/c9/6372c92952a1af9fb1e6eab95aeb7915.jpg",
-  "https://i.pinimg.com/736x/46/1b/ee/461beee3231bfe5d9db0ea7d85de82dc.jpg",
-];
 
 const RegistrationForm = ({server_url}) => {
   const navigate = useNavigate();
@@ -110,7 +104,7 @@ const RegistrationForm = ({server_url}) => {
             value={password}
             onChange={handlePasswordChange}
           />
-          <div className="flex flex-wrap mb-4">
+          <div className="flex flex-wrap mb-4 justify-start">
             <p className="w-full mb-2">Select an Avatar:</p>
             {avatars.map((avatar, index) => (
               <div

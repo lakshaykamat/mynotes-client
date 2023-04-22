@@ -52,6 +52,7 @@ const AllNotes = ({ server_url }) => {
     };
     try {
       const response = await axios.request(config);
+      console.log(response.data)
       if (response.data.notes.length === 0) {
         setAllNotes([]);
       } else {
