@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import axios, { all } from "axios";
+import React, { useEffect, useMemo, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { BiFilterAlt } from 'react-icons/bi'
@@ -8,6 +8,7 @@ import { FiDelete } from 'react-icons/fi'
 import NoteCard from "../../components/NotesCard";
 import NoteNotFound from "../../components/NoteNotFound";
 import Spinner from "../../components/common/Spinner";
+import ToggleButton from "./ToggleButton";
 import SearchBar from "./SearchBar";
 
 const AllNotes = ({ server_url }) => {
@@ -20,9 +21,11 @@ const AllNotes = ({ server_url }) => {
   //state for search data
   const [searchNote, setSearchNote] = useState(null)
   //state for tags
-  const [selectedTag, setSelectedTags] = useState("#general");
+  const [selectedTag, setSelectedTags] = useState("#all");
   //notes by tags
   const [notesByTag, setNotesByTag] = useState(null)
+
+  const [toggleButtonStatus, setToggleButtonStatus] = useState(true)
 
   const handleChange = (event) => {
     setSelectedTags(event.target.value);
@@ -30,22 +33,23 @@ const AllNotes = ({ server_url }) => {
   let token
   const getAccessToken = useMemo(() => {
     console.log("fetching     ")
-   token = localStorage.getItem("token");
+    token = localStorage.getItem("token");
     if (!token) navigate("/login");
     return JSON.parse(token).accessToken;
-  },[token])
+  }, [token])
 
-  //!Fetch Notes API
-  let config = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: `${server_url}/api/notes/sort`,
-    headers: {
-      Authorization: `Bearer ${getAccessToken}`,
-    },
-  };
+
 
   async function fetchingNotes () {
+    //!Fetch Notes API
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: toggleButtonStatus ? `${server_url}/api/notes/sort` : `${server_url}/api/notes/`,
+      headers: {
+        Authorization: `Bearer ${getAccessToken}`,
+      },
+    };
     try {
       const response = await axios.request(config);
       if (response.data.notes.length === 0) {
@@ -62,10 +66,9 @@ const AllNotes = ({ server_url }) => {
   }
 
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchingNotes()
-
-  },[allNotes])
+  }, [allNotes])
 
   //IF savedAllNotes is undefined ==> return spinner
   if (!allNotes) return <Spinner />
@@ -115,6 +118,7 @@ const AllNotes = ({ server_url }) => {
   }
 
   const onFilter = () => {
+    if (selectedTag == "#all") return
     console.log(selectedTag.substring(1))
     notesByTagAPI()
   }
@@ -135,13 +139,14 @@ const AllNotes = ({ server_url }) => {
       <SearchBar searchTerm={searchTerm} makeSearch={makeSearch} setSearchTerm={setSearchTerm} />
 
 
-      {
-        /*
+
+      {/*
         IF searchbar have any string ==> HIT the API
         IF searchNote is null ==> fetching the data ==> show spinner
         IF searchNote array length is 0 ==> Note not found
         IF searchNote array have any data ==> Show the note
-        */
+        */}
+      {
         searchTerm ?
           <div className="mx-4">
             <h1 className="text-2xl font-semibold my-4">Search Results for {searchTerm}</h1>
@@ -170,44 +175,59 @@ const AllNotes = ({ server_url }) => {
                 </div>
             }
           </div>
-
-
           :
+
+
+
+
+
 
 
           <>
             {/* SAVED NOTES */}
-            <div className="my-7 mx-6 gap-2 flex flex-col">
+            <div className=" my-7 mx-6 gap-2 flex flex-col">
               <h1 className="text-3xl font-bold">Saved Notes</h1>
               <h1 className="font-semibold">Total Notes {allNotes.notes && allNotes.notes.length}</h1>
-              <div className="gap-3 flex flex-col justify-start items-start sm:items-center sm:justify-start sm:flex-row max-w-xl">
+              <div className="gap-3 flex flex-col justify-start items-start sm:items-center sm:justify-start sm:flex-row">
                 {
                   allNotes.notes &&
                   allNotes.notes.length !== 0 &&
                   <>
-                    <div className="flex  items-center gap-3">
-                      <h1 className="font-bold">Tags</h1>
-                      <select
-                        className="block w-full px-4 py-2  pr-8 font-semibold leading-tight bg-gray-300 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                        value={selectedTag}
-                        onChange={handleChange}
-                      >
-                        {
+                    <div className="flex justify-between w-full items-center flex-wrap gap-3">
 
-                          allNotes.tags.length > 0  && allNotes.tags.map((item, index) => {
-                            return <option key={index} value={item}>{item}</option>
-                          })
-                        }
-                      </select>
-                    </div>
-                    <div className="flex gap-3">
+                      <div className="flex gap-3">
 
-                      <button onClick={() => {
-                        setSelectedTags('#general')
-                        setNotesByTag(null)
-                      }
-                      } className="bg-gray-500 px-5 hover:bg-gray-900 py-2 rounded text-white"><FiDelete /></button>
-                      <button onClick={onFilter} className="bg-gray-500 px-5 hover:bg-gray-900 py-2 rounded text-white"><BiFilterAlt /></button>
+
+                        <div className="flex  items-center gap-3">
+                          <h1 className="font-bold">Tags</h1>
+                          <select
+                            className="block w-full px-4 py-2  pr-8 font-semibold leading-tight bg-gray-300 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            value={selectedTag}
+                            onChange={handleChange}
+                          >
+                            <option value={"#all"} disabled>{"#all"}</option>
+                            {
+
+                              allNotes.tags.length > 0 && allNotes.tags.map((item, index) => {
+                                return <option key={index} value={item}>{item}</option>
+                              })
+                            }
+                          </select>
+                        </div>
+                        <div className="flex gap-3">
+
+                          <button onClick={() => {
+                            setSelectedTags('#all')
+                            setNotesByTag(null)
+                          }
+                          } className="bg-gray-500 px-5 hover:bg-gray-900 py-2 rounded text-white"><FiDelete /></button>
+                          <button onClick={onFilter} className="bg-gray-500 px-5 hover:bg-gray-900 py-2 rounded text-white"><BiFilterAlt /></button>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <h1 className="font-semibold">Sort by Latest</h1>
+                        <ToggleButton toggleButtonStatus={toggleButtonStatus} setToggleButtonStatus={setToggleButtonStatus} />
+                      </div>
                     </div>
                   </>
                 }
@@ -250,5 +270,40 @@ const AllNotes = ({ server_url }) => {
     </div>
   );
 };
-
+const SearchResults = (searchTerm, searchNote) => {
+  return (
+    <>
+      {
+        searchTerm &&
+        <div className="mx-4">
+          <h1 className="text-2xl font-semibold my-4">Search Results for {searchTerm}</h1>
+          {
+            !searchNote ?
+              <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2`}>
+                <Spinner />
+              </div>
+              :
+              <div className={` ${searchNote.length === 0 ? "flex  justify-center items-center" : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mx-6 my-2"}`}>
+                {
+                  searchNote.length === 0 ? <NoteNotFound /> :
+                    searchNote.map((item, index) => {
+                      return (
+                        <NoteCard
+                          date={item.createdAt}
+                          key={index}
+                          id={item._id}
+                          title={item.title}
+                          body={item.body}
+                          tags={item.tags}
+                          server_url={server_url} />
+                      )
+                    })
+                }
+              </div>
+          }
+        </div>
+      }
+    </>
+  )
+}
 export default AllNotes;

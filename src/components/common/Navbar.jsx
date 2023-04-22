@@ -56,6 +56,9 @@ const Navbar = ({server_url}) => {
       setProfilePIC(response.data.avatar)
     }
     catch (error) {
+
+      console.log(error.message)
+      if(error.message && error.message == "Network Error") return alert("Failed")
       console.log(error);
     }
   }

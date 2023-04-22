@@ -25,17 +25,20 @@ const CreateNote = ({server_url}) => {
       };
     });
   };
-  const createTags = (string) => {
-    let text = string;
-    const myArray = text.split(" ");
-    for (let i = 0; i < myArray.length; i++) {
-      if (myArray[i].charAt(0) != "#") {
-        let text = "#" + myArray[i];
-        delete myArray[i];
-        myArray[i] = text;
-      }
-    }
-    return myArray;
+  const createTags = (str) => {
+  // Replace all whitespace with `#`
+  const tags = str.replace(/\s+/g, "#");
+
+  // Add `#` to the beginning of the string if it doesn't already have it
+  const formattedTags = tags.startsWith("#") ? tags : `#${tags}`;
+
+  // Split the string into an array of tags
+  const tagsArray = formattedTags.split("#").filter((tag) => tag !== "");
+
+  // Add `#` to the beginning of each tag if it doesn't already have it
+  const taggedArray = tagsArray.map((tag) => (tag.startsWith("#") ? tag : `#${tag}`));
+
+  return taggedArray;
   };
 
 let token;

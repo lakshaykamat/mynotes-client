@@ -136,7 +136,7 @@ const ProfileCard = ({ userImg, name, email,createdAt ,logout, deleteAllNotes })
 
     // Format the date string
     return `${month} ${year}`
-    return `${day} ${month} ${year}`
+    // return `${day} ${month} ${year}`p
   }
   return (
     <>  
@@ -145,8 +145,8 @@ const ProfileCard = ({ userImg, name, email,createdAt ,logout, deleteAllNotes })
         <img src={userImg} alt="Avatar" className="w-full h-full object-cover" />
       </div>
       <h2 className="text-2xl text-white font-bold mt-4">{name}</h2>
-      <p className="text-white"><span className="font-semibold">Email: </span>{email}</p>
-      <p className="text-white"><span className="font-semibold">Created At:</span> {formatDate(new Date(createdAt))}</p>
+      <p className="text-white">{email}</p>
+      <p className="text-white">{formatDate(new Date(createdAt))}</p>
       <div>
 
       </div>

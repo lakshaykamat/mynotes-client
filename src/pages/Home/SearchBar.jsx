@@ -7,7 +7,6 @@ const SearchBar = ({ searchTerm, setSearchTerm, makeSearch }) => {
         console.log(searchTerm)
         if(searchTerm){
             makeSearch()
-
         }
     },[searchTerm])
     return (

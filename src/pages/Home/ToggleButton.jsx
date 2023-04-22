@@ -1,27 +1,21 @@
-import React, { useState } from "react";
+import { Switch } from '@headlessui/react'
 
-const ToggleButton = () => {
-  const [isToggled, setToggled] = useState(false);
-
-  const handleToggle = () => {
-    setToggled(!isToggled);
-  };
-
+function ToggleButton({toggleButtonStatus,setToggleButtonStatus}) {
   return (
-    <label className="relative inline-block w-10 h-6 cursor-pointer bg-gray-300 rounded">
-      <input
-        type="checkbox"
-        className="opacity-0 w-0 h-0"
-        checked={isToggled}
-        onChange={handleToggle}
-      />
+    <Switch
+      checked={toggleButtonStatus}
+      onChange={setToggleButtonStatus}
+      className={`${
+        toggleButtonStatus ? 'bg-slate-600' : 'bg-gray-400'
+      } relative inline-flex h-6 w-11 items-center rounded-full`}
+    >
+      <span className="sr-only">Enable notifications</span>
       <span
-        className={`absolute w-6 h-6 bg-gray-300 rounded-full transition-transform ${
-          isToggled ? "bg-green-500 transform translate-x-full" : ""
-        }`}
-      ></span>
-    </label>
-  );
-};
-
-export default ToggleButton;
+        className={`${
+          toggleButtonStatus ? 'translate-x-6' : 'translate-x-1'
+        } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+      />
+    </Switch>
+  )
+}
+export default ToggleButton
