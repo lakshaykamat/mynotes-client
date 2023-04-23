@@ -27,7 +27,6 @@ const AboutPage = () => {
         <ul className="list-disc list-inside">
           <li className="text-gray-600 mb-2">React.js for building the user interface.</li>
           <li className="text-gray-600 mb-2">Tailwind CSS for styling the app.</li>
-          <li className="text-gray-600 mb-2">Redux for state management.</li>
         </ul>
       </div>
     </div>

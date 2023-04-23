@@ -2,6 +2,7 @@ import React, {useMemo } from "react";
 import axios from "axios";
 import { FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 const NoteCard = ({ title, body, tags, id, date,server_url,fetchingNotes }) => {
   function formatDate (date) {
     // Define month names
@@ -52,10 +53,12 @@ const NoteCard = ({ title, body, tags, id, date,server_url,fetchingNotes }) => {
       new Promise(async (resolve, reject) => {
         try {
           await axios.request(config);
+          onDelete()
+          
           resolve("OKAY")
-          fetchingNotes()
+         
         } catch (error) {
-          console.log(id)
+          console.log(error)
           reject(error);
         }
       }),
@@ -70,7 +73,9 @@ const NoteCard = ({ title, body, tags, id, date,server_url,fetchingNotes }) => {
       }
     );
   }
-
+const onDelete = ()=>{
+  fetchingNotes()
+}
   return (
     <>
 

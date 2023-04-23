@@ -13,23 +13,25 @@ import ContactPage from "./pages/Contact/ContactPage";
 import LandingPage from "./pages/Home/LandingPage";
 import { useMemo, useState } from "react";
 import axios from "axios";
-function App() {
-    // const SERVER_URL = "http://localhost"
-    const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
-    //state for user notes
-    const [allNotes, setAllNotes] = useState(null);
-    const [toggleButtonStatus, setToggleButtonStatus] = useState(true)
+function App () {
+  // const SERVER_URL = "http://localhost"
+  const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
 
-    let token
-    const getAccessToken = useMemo(() => {
-      console.log("fetching     ")
-      token = localStorage.getItem("token");
-      if (!token) navigate("/login");
-      return JSON.parse(token).accessToken;
-    }, [token])
+  //state for all user notes
+  const [allNotes, setAllNotes] = useState(null);
+  // state for toggle button
+  const [toggleButtonStatus, setToggleButtonStatus] = useState(true)
+
+  let token
+  const getAccessToken = useMemo(() => {
+    console.log("fetching     ")
+    token = localStorage.getItem("token");
+    if (!token) navigate("/login");
+    return JSON.parse(token).accessToken;
+  }, [token])
+
+  //!Fetch Notes API
   const fetchingNotes = async () => {
-    console.log(toggleButtonStatus)
-    //!Fetch Notes API
     let config = {
       method: "get",
       maxBodyLength: Infinity,
@@ -56,28 +58,29 @@ function App() {
 
   return (
     <>
-    <Navbar server_url={SERVER_URL} getAccessToken={getAccessToken}/>
+      <Navbar server_url={SERVER_URL} getAccessToken={getAccessToken} />
       <Routes>
         <Route element={<PrivateComponents />}>
           <Route path="/home" element={
-          <Home 
-          toggleButtonStatus={toggleButtonStatus} 
-          setToggleButtonStatus={setToggleButtonStatus} 
-          getAccessToken={getAccessToken} 
-          allNotes={allNotes} 
-          fetchingNotes={fetchingNotes} 
-          server_url={SERVER_URL}/>
+            <Home
+              toggleButtonStatus={toggleButtonStatus}
+              setToggleButtonStatus={setToggleButtonStatus}
+              getAccessToken={getAccessToken}
+              allNotes={allNotes}
+              fetchingNotes={fetchingNotes}
+              server_url={SERVER_URL}
+              setAllNotes={setAllNotes} />
           } />
-          <Route path="/profile" element={<Profile  server_url={SERVER_URL}/>} />
-          <Route path="/home/create-note" element={<CreateNote allNotes={allNotes} fetchingNotes={fetchingNotes}  server_url={SERVER_URL}/>} />
-          <Route path="/home/edit-note/:noteId" element={<EditNote  allNotes={allNotes} fetchingNotes={fetchingNotes} server_url={SERVER_URL}/>} />
+          <Route path="/profile" element={<Profile server_url={SERVER_URL} />} />
+          <Route path="/home/create-note" element={<CreateNote server_url={SERVER_URL} />} />
+          <Route path="/home/edit-note/:noteId" element={<EditNote server_url={SERVER_URL} />} />
         </Route>
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="/" element={<LandingPage/>} />
-          <Route path="/login" element={<LoginForm server_url={SERVER_URL}/>} />
-          <Route path="/register" element={<RegisterForm server_url={SERVER_URL}/>} />
-          <Route path="/about" element={<AboutPage/>} />
-          <Route path="/contact" element={<ContactPage/>} />
+        <Route path="*" element={<PageNotFound />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginForm server_url={SERVER_URL} />} />
+        <Route path="/register" element={<RegisterForm server_url={SERVER_URL} />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </>
   );

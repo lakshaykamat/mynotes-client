@@ -1,15 +1,16 @@
 import { Switch } from '@headlessui/react'
 import { useEffect } from 'react'
 
-function ToggleButton({toggleButtonStatus,setToggleButtonStatus,fetchingNotes}) {
+function ToggleButton({toggleButtonStatus,setToggleButtonStatus,fetchingNotes,setShowSpinner}) {
   const handleChange = ()=>{
+    setShowSpinner(true)
     setToggleButtonStatus((prev)=>{
       return !prev
     })
   }
   useEffect(()=>{
-
     fetchingNotes()
+    setShowSpinner(false)
   },[toggleButtonStatus])
   return (
     <Switch

@@ -2,11 +2,8 @@ import NoteNotFound from "../../components/NoteNotFound"
 import NoteCard from "../../components/NotesCard"
 import Spinner from "../../components/common/Spinner"
 
-const  SearchResults = ({ searchTerm, searchNote, server_url ,fetchingNotes}) => {
+const  SearchResults = ({ searchTerm, searchNote, server_url}) => {
     return (
-      <>
-        {
-          searchTerm &&
           <div className="mx-4">
             <h1 className="text-2xl font-semibold my-4">Search Results for {searchTerm}</h1>
             {
@@ -35,8 +32,6 @@ const  SearchResults = ({ searchTerm, searchNote, server_url ,fetchingNotes}) =>
                 </div>
             }
           </div>
-        }
-      </>
     )
   }
   export default SearchResults
