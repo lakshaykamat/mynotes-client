@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/common/Navbar";
 import { AiFillSave } from "react-icons/ai";
 import Spinner from "../../components/common/Spinner";
 import axios from "axios";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+
 const EditNote = ({ server_url }) => {
   const { noteId } = useParams();
   const [noteFields, setNoteFields] = useState({
@@ -52,27 +52,24 @@ const EditNote = ({ server_url }) => {
   };
 
   //! UPDATE NOTE API
-  let data = JSON.stringify({
-    title: noteFields.title,
-    body: noteFields.body,
-    tags: noteTags.length !==0 && noteTags,
-  });
-
-  let config = {
-    method: "put",
-    maxBodyLength: Infinity,
-    url: `${server_url}/api/notes/${noteId}`,
-    headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-
   async function updatingNotes () {
+    //! Update Note
+    let data = JSON.stringify({
+      title: noteFields.title,
+      body: noteFields.body,
+      tags: noteTags.length !== 0 && noteTags,
+    });
 
-
-
+    let config = {
+      method: "put",
+      maxBodyLength: Infinity,
+      url: `${server_url}/api/notes/${noteId}`,
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
@@ -96,25 +93,24 @@ const EditNote = ({ server_url }) => {
     );
   }
 
+
+
   const handleSubmit = () => {
     // setSavedNote(null);
     updatingNotes();
   };
 
 
-
-
-  //! GETTING NOTE DATA API
-  let config2 = {
-    method: "get",
-    maxBodyLength: Infinity,
-    url: `${server_url}/api/notes/${noteId}`,
-    headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-    },
-  };
-
   async function fetchNote () {
+    //! GETTING NOTE DATA API
+    let config2 = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `${server_url}/api/notes/${noteId}`,
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    };
     try {
       const response = await axios.request(config2);
       setNoteFields({
@@ -126,6 +122,9 @@ const EditNote = ({ server_url }) => {
       console.log(error);
     }
   }
+
+
+
 
   if (!savedNote) return <Spinner />
 

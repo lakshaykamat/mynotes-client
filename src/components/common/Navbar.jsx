@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsPersonCircle } from "react-icons/bs";
 import axios from "axios";
 
-const Navbar = ({server_url}) => {
+const Navbar = ({server_url,getAccessToken}) => {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
   const [profilePIC,setProfilePIC] = useState('')
@@ -31,19 +31,13 @@ const Navbar = ({server_url}) => {
     },
   ];
 
-  const getAccessToken = () => {
-    console.log("Fetching token...");
-    const token = localStorage.getItem("token");
-    if (!token) return ;
-    return JSON.parse(token).accessToken;
-  };
 
   let currentUserConfig = {
     method: 'get',
     maxBodyLength: Infinity,
     url: `${server_url}/api/user/current`,
     headers: { 
-      'Authorization':`Bearer ${getAccessToken()}`
+      'Authorization':`Bearer ${getAccessToken}`
     }
   };
   

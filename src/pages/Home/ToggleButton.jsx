@@ -1,12 +1,20 @@
 import { Switch } from '@headlessui/react'
+import { useEffect } from 'react'
 
-function ToggleButton({toggleButtonStatus,setToggleButtonStatus}) {
+function ToggleButton({toggleButtonStatus,setToggleButtonStatus,fetchingNotes}) {
+  const handleChange = ()=>{
+    setToggleButtonStatus((prev)=>{
+      return !prev
+    })
+  }
+  useEffect(()=>{
+
+    fetchingNotes()
+  },[toggleButtonStatus])
   return (
     <Switch
       checked={toggleButtonStatus}
-      onChange={
-        setToggleButtonStatus
-      }
+      onChange={handleChange}
       className={`${
         toggleButtonStatus ? 'bg-slate-600' : 'bg-gray-400'
       } relative inline-flex h-6 w-11 items-center rounded-full`}

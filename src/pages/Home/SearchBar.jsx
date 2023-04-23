@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 const SearchBar = ({ searchTerm, setSearchTerm, makeSearch }) => {
 
-
     useEffect(()=>{
         console.log(searchTerm)
         if(searchTerm){
@@ -42,12 +41,6 @@ const SearchBar = ({ searchTerm, setSearchTerm, makeSearch }) => {
                         />
                     </svg>
                 </span>
-                {/* <button
-        className="absolute top-1/2 right-16 transform -translate-y-1/2 bg-blue-500 px-4 py-2 text-white rounded-md"
-        onClick={handleSearch}
-      >
-        Search
-      </button> */}
             </div>
         </div>
     );

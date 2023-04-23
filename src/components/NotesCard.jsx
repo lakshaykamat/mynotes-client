@@ -1,10 +1,8 @@
-import React, { useCallback, useMemo } from "react";
+import React, {useMemo } from "react";
 import axios from "axios";
 import { FaTrashAlt } from "react-icons/fa";
-import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-const NoteCard = ({ title, body, tags, id, date,server_url }) => {
+const NoteCard = ({ title, body, tags, id, date,server_url,fetchingNotes }) => {
   function formatDate (date) {
     // Define month names
     const monthNames = [
@@ -55,6 +53,7 @@ const NoteCard = ({ title, body, tags, id, date,server_url }) => {
         try {
           await axios.request(config);
           resolve("OKAY")
+          fetchingNotes()
         } catch (error) {
           console.log(id)
           reject(error);
