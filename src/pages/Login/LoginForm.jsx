@@ -30,6 +30,7 @@ const LoginForm = ({server_url}) => {
 
   async function makeRequest () {
     try {
+      console.log(loginField)
       setMessage("");
       setLoginData(null)
       const response = await axios.request(config);

@@ -30,13 +30,6 @@ const NoteCard = ({ title, body, tags, id, date,server_url,fetchingNotes }) => {
   }
 
   const limitedBody = body.length > 50 ? `${body.slice(0, 50)}...` : body;
-  let token
-  const getAccessToken = useMemo(() => {
-    console.log("Fetching token...")
-     token = localStorage.getItem("token");
-    if (!token) navigate("/login");
-    return JSON.parse(token).accessToken;
-  },[token])
 
 
   async function DeleteNote () {

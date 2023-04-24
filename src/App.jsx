@@ -1,8 +1,9 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate ,} from "react-router-dom";
 import Navbar from "./components/common/Navbar";
 import LoginForm from "./pages/Login/LoginForm";
 import RegisterForm from './pages/Register/RegisterForm';
 import PageNotFound from "./pages/PageNotFound";
+
 import PrivateComponents from './components/common/PrivateComponents'
 import Profile from "./pages/Profile/Profile";
 import Home from "./pages/Home/Home";
@@ -11,31 +12,30 @@ import EditNote from "./pages/Home/EditNote";
 import AboutPage from "./pages/About/AboutPage";
 import ContactPage from "./pages/Contact/ContactPage";
 import LandingPage from "./pages/Home/LandingPage";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import axios from "axios";
 function App () {
+  const navigate = useNavigate()
   // const SERVER_URL = "http://localhost"
   const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
 
   //state for all user notes
   const [allNotes, setAllNotes] = useState(null);
-  // state for toggle button
-  const [toggleButtonStatus, setToggleButtonStatus] = useState(true)
 
   let token
   const getAccessToken = useMemo(() => {
-    console.log("fetching     ")
+    console.log("fetching")
     token = localStorage.getItem("token");
     if (!token) navigate("/login");
     return JSON.parse(token).accessToken;
   }, [token])
 
   //!Fetch Notes API
-  const fetchingNotes = async () => {
+  const fetchingNotes =  useCallback(async() => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: toggleButtonStatus ? `${SERVER_URL}/api/notes/sort` : `${SERVER_URL}/api/notes/`,
+      url: `${SERVER_URL}/api/notes/` ,
       headers: {
         Authorization: `Bearer ${getAccessToken}`,
       },
@@ -43,7 +43,7 @@ function App () {
     try {
       const response = await axios.request(config);
       console.log(response.data)
-      if (response.data.notes.length === 0) {
+      if (response.data.length === 0) {
         setAllNotes([]);
       } else {
         setAllNotes(response.data);
@@ -54,7 +54,7 @@ function App () {
         navigate("/login");
       }
     }
-  }
+  },[allNotes])
 
   return (
     <>
@@ -63,8 +63,6 @@ function App () {
         <Route element={<PrivateComponents />}>
           <Route path="/home" element={
             <Home
-              toggleButtonStatus={toggleButtonStatus}
-              setToggleButtonStatus={setToggleButtonStatus}
               getAccessToken={getAccessToken}
               allNotes={allNotes}
               fetchingNotes={fetchingNotes}

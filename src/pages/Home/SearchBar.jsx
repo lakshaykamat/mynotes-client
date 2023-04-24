@@ -1,13 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-const SearchBar = ({ searchTerm, setSearchTerm, makeSearch }) => {
+const SearchBar = ({ searchTerm, setSearchTerm}) => {
 
-    useEffect(()=>{
-        console.log(searchTerm)
-        if(searchTerm){
-            makeSearch()
-        }
-    },[searchTerm])
+
     return (
         <div className="mx-5 mt-9  flex flex-col gap-3 max-w-xl sm:mx-auto">
             <h1 className="text-3xl font-semibold text-center">Search Note</h1>
@@ -17,10 +12,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, makeSearch }) => {
                     className="bg-gray-600 w-full px-4 py-2 pr-10 rounded-md focus:outline-none focus:ring focus:bg-gray-500 text-white"
                     placeholder="Search..."
                     value={searchTerm}
-                    onChange={(event) => {
-                        setSearchTerm(event.target.value)
-                        }
-                    }
+                    onChange={(event) => setSearchTerm(event.target.value)}
                 />
                 <span className="absolute top-1/2 right-3 transform -translate-y-1/2">
                     <svg

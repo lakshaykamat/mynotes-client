@@ -1,8 +1,10 @@
+import { useEffect } from "react"
 import NoteNotFound from "../../components/NoteNotFound"
 import NoteCard from "../../components/NotesCard"
 import Spinner from "../../components/common/Spinner"
 
-const  SearchResults = ({ searchTerm, searchNote, server_url}) => {
+const  SearchResults = ({ searchNote,searchTerm,getAccessToken}) => {
+
     return (
           <div className="mx-4">
             <h1 className="text-2xl font-semibold my-4">Search Results for {searchTerm}</h1>
@@ -24,7 +26,7 @@ const  SearchResults = ({ searchTerm, searchNote, server_url}) => {
                             title={item.title}
                             body={item.body}
                             tags={item.tags}
-                            server_url={server_url} 
+                            getAccessToken={getAccessToken}
                             />
                         )
                       })

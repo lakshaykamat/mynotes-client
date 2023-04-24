@@ -51,9 +51,6 @@ let token;
 
 
 
-
-
-
   async function saveNoteToDB () {
     //! Save Note
     let data = JSON.stringify({
