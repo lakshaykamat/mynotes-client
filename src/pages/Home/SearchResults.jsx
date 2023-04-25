@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import NoteNotFound from "../../components/NoteNotFound"
 import NoteCard from "../../components/NotesCard"
 import Spinner from "../../components/common/Spinner"

@@ -94,6 +94,7 @@ const Home = ({ server_url, allNotes, fetchingNotes, getAccessToken, setAllNotes
                         setToggleButtonStatus={setToggleButtonStatus}
                         fetchingNotes={fetchingNotes}
                         getAccessToken={getAccessToken}
+                        server_url={server_url}
                       />
                     </div>
                   </div>
@@ -158,7 +159,7 @@ const Filtering = ({ allNotes, toggleButtonStatus, setToggleButtonStatus, fetchi
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'http://localhost/api/notes/tags/all',
+      url: `${server_url}/api/notes/tags/all`,
       headers: {
         'Authorization': `Bearer ${getAccessToken}`
       }
