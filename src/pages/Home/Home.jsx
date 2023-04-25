@@ -22,7 +22,7 @@ const Home = ({ server_url, allNotes, fetchingNotes, getAccessToken, setAllNotes
   //Fetch all user notes when page loads
   useEffect(() => {
     setAllNotes(null)
-    fetchingNotes()
+    getAccessToken && fetchingNotes()
   }, [])
 
 

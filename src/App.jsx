@@ -26,8 +26,14 @@ function App () {
   const getAccessToken = useMemo(() => {
     console.log("fetching")
     token = localStorage.getItem("token");
-    if (!token) navigate("/login");
-    return JSON.parse(token).accessToken;
+    if (!token){
+      navigate("/login");
+      return 
+    }
+    if(token){
+      console.log(token)
+      return JSON.parse(token).accessToken;
+    }
   }, [token])
 
   //!Fetch Notes API
