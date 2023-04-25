@@ -16,8 +16,8 @@ import { useCallback, useMemo, useState } from "react";
 import axios from "axios";
 function App () {
   const navigate = useNavigate()
-  const SERVER_URL = "http://localhost"
-  // const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
+  // const SERVER_URL = "http://localhost"
+  const SERVER_URL = "https://mynotes-server-jznn.onrender.com"
 
   //state for all user notes
   const [allNotes, setAllNotes] = useState(null);
