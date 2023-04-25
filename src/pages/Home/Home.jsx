@@ -148,7 +148,7 @@ const Home = ({ server_url, allNotes, fetchingNotes, getAccessToken, setAllNotes
     </>
   )
 }
-const Filtering = ({ allNotes, toggleButtonStatus, setToggleButtonStatus, fetchingNotes, getAccessToken, setAllNotes }) => {
+const Filtering = ({ allNotes, toggleButtonStatus, setToggleButtonStatus, fetchingNotes, getAccessToken, setAllNotes ,server_url}) => {
 
   //state for tags
   const [selectedTag, setSelectedTags] = useState("#all");
